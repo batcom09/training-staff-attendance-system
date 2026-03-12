@@ -17,12 +17,14 @@
 
         .glassmorphism {
             background: rgba(255, 255, 255, 0.05);
+            -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .glassmorphism-hover:hover {
             background: rgba(255, 255, 255, 0.08);
+            -webkit-backdrop-filter: blur(12px);
             backdrop-filter: blur(12px);
             transform: translateY(-2px);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -234,7 +236,7 @@
 
                     <!-- Notifications -->
                     <div class="relative">
-                        <button id="notificationBtn"
+                        <button id="notificationBtn" title="Notifications"
                             class="relative p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors">
                             <i data-lucide="bell" class="w-5 h-5"></i>
                             <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
@@ -243,7 +245,7 @@
 
                     <!-- Profile -->
                     <div class="relative">
-                        <button id="profileBtn"
+                        <button id="profileBtn" title="Profile"
                             class="flex items-center space-x-2 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors">
                             <div
                                 class="w-8 h-8 bg-gradient-to-br from-blue-500 to-emerald-500 rounded-full flex items-center justify-center">
@@ -334,17 +336,17 @@
                                 <h3 class="text-lg font-semibold text-white">Quick Actions</h3>
                             </div>
                             <div class="p-6 space-y-3">
-                                <button id="quickScanBtn"
+                                <button id="quickScanBtn" title="Start QR Scanner"
                                     class="w-full flex items-center space-x-3 px-4 py-3 bg-blue-500/20 border border-blue-500/30 rounded-lg text-blue-400 hover:bg-blue-500/30 transition-colors">
                                     <i data-lucide="qr-code" class="w-5 h-5"></i>
                                     <span>Start QR Scanner</span>
                                 </button>
-                                <button
+                                <button title="Invite User"
                                     class="w-full flex items-center space-x-3 px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-gray-400 hover:bg-white/10 hover:text-white transition-colors">
                                     <i data-lucide="user-plus" class="w-5 h-5"></i>
                                     <span>Invite User</span>
                                 </button>
-                                <button
+                                <button title="Export Report"
                                     class="w-full flex items-center space-x-3 px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-gray-400 hover:bg-white/10 hover:text-white transition-colors">
                                     <i data-lucide="download" class="w-5 h-5"></i>
                                     <span>Export Report</span>
@@ -376,12 +378,13 @@
     </div>
 
     <!-- QR Scanner Modal -->
-    <div id="scannerModal" class="fixed inset-0 bg-slate-900/95 backdrop-blur-lg z-50 hidden">
+    <div id="scannerModal" class="fixed inset-0 bg-slate-900/95 backdrop-filter backdrop-blur-lg z-50 hidden">
         <div class="w-full max-w-2xl mx-4">
             <!-- Scanner Header -->
             <div class="flex items-center justify-between mb-6">
                 <h3 class="text-xl font-semibold text-white">QR Code Scanner</h3>
-                <button id="closeScanner" class="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors">
+                <button id="closeScanner" title="Close Scanner"
+                    class="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors">
                     <i data-lucide="x" class="w-5 h-5 text-white"></i>
                 </button>
             </div>
@@ -412,15 +415,15 @@
                 <!-- Camera Controls -->
                 <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between">
                     <div class="flex items-center space-x-2">
-                        <button id="flashlightBtn"
+                        <button id="flashlightBtn" title="Toggle Flashlight"
                             class="p-3 rounded-lg bg-white/10 text-white hover:bg-white/20 transition-colors">
                             <i data-lucide="flashlight" class="w-5 h-5"></i>
                         </button>
-                        <button id="zoomOutBtn"
+                        <button id="zoomOutBtn" title="Zoom Out"
                             class="p-3 rounded-lg bg-white/10 text-white hover:bg-white/20 transition-colors">
                             <i data-lucide="zoom-out" class="w-5 h-5"></i>
                         </button>
-                        <button id="zoomInBtn"
+                        <button id="zoomInBtn" title="Zoom In"
                             class="p-3 rounded-lg bg-white/10 text-white hover:bg-white/20 transition-colors">
                             <i data-lucide="zoom-in" class="w-5 h-5"></i>
                         </button>
@@ -440,14 +443,14 @@
     </div>
 
     <!-- Search Modal -->
-    <div id="searchModal" class="fixed inset-0 bg-slate-900/95 backdrop-blur-lg z-50 hidden">
+    <div id="searchModal" class="fixed inset-0 bg-slate-900/95 backdrop-filter backdrop-blur-lg z-50 hidden">
         <div class="w-full max-w-2xl mx-4 pt-20">
             <div class="glassmorphism rounded-xl border border-white/10 p-6">
                 <div class="flex items-center space-x-3 mb-4">
                     <i data-lucide="search" class="w-5 h-5 text-gray-400"></i>
                     <input type="text" id="searchInput" placeholder="Search users, scans, reports..."
                         class="flex-1 bg-transparent text-white placeholder-gray-400 outline-none" autofocus />
-                    <button id="closeSearch">
+                    <button id="closeSearch" title="Close Search">
                         <i data-lucide="x" class="w-5 h-5 text-gray-400 hover:text-white"></i>
                     </button>
                 </div>
@@ -459,7 +462,7 @@
     </div>
 
     <!-- Success Modal -->
-    <div id="successModal" class="fixed inset-0 bg-slate-900/95 backdrop-blur-lg z-50 hidden">
+    <div id="successModal" class="fixed inset-0 bg-slate-900/95 backdrop-filter backdrop-blur-lg z-50 hidden">
         <div class="flex items-center justify-center h-full">
             <div class="glassmorphism rounded-xl border border-white/10 p-8 max-w-sm mx-4 success-flash">
                 <div class="flex flex-col items-center text-center">
@@ -468,7 +471,7 @@
                     </div>
                     <h3 class="text-xl font-semibold text-white mb-2">Scan Successful!</h3>
                     <p class="text-gray-400 mb-4" id="scanResult">QR code scanned successfully</p>
-                    <button id="closeSuccess"
+                    <button id="closeSuccess" title="Done"
                         class="px-6 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors">
                         Done
                     </button>

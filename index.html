@@ -30,18 +30,19 @@
         }
 
         .glassmorphism {
-            background: rgba(45, 24, 16, 0.8);
+            background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
-            border: 2px solid #4caf50;
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 4px 20px rgba(76, 175, 80, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         .glassmorphism-hover:hover {
-            background: rgba(45, 24, 16, 0.9);
+            background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(76, 175, 80, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-            border-color: #66bb6a;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .military-text {
@@ -270,42 +271,50 @@
             <!-- Navigation -->
             <nav class="flex-1 p-4 space-y-2">
                 <button data-nav="dashboard"
-                    class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 tactical-card text-green-400 border border-green-500/50">
+                    class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 tactical-card text-green-400 border border-green-500/50"
+                    title="Dashboard">
                     <i data-lucide="home" class="w-5 h-5"></i>
                     <span class="text-sm font-medium">Command Center</span>
                 </button>
                 <button data-nav="scanner"
-                    class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 text-gray-400 hover:text-green-400 hover:bg-green-900/30 animate-pulse-slow">
+                    class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 text-gray-400 hover:text-green-400 hover:bg-green-900/30 animate-pulse-slow"
+                    title="QR Scanner">
                     <i data-lucide="radar" class="w-5 h-5 text-green-400"></i>
                     <span class="text-sm font-medium">QR Scanner</span>
                 </button>
                 <button data-nav="users"
-                    class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 text-gray-400 hover:text-green-400 hover:bg-green-900/30">
+                    class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 text-gray-400 hover:text-green-400 hover:bg-green-900/30"
+                    title="Squad Management">
                     <i data-lucide="users" class="w-5 h-5"></i>
                     <span class="text-sm font-medium">Squad Management</span>
                 </button>
                 <button data-nav="attendance"
-                    class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 text-gray-400 hover:text-green-400 hover:bg-green-900/30">
+                    class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 text-gray-400 hover:text-green-400 hover:bg-green-900/30"
+                    title="Attendance Log">
                     <i data-lucide="clipboard-list" class="w-5 h-5"></i>
                     <span class="text-sm font-medium">Attendance Log</span>
                 </button>
                 <button data-nav="training"
-                    class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 text-gray-400 hover:text-green-400 hover:bg-green-900/30">
+                    class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 text-gray-400 hover:text-green-400 hover:bg-green-900/30"
+                    title="Training Ops">
                     <i data-lucide="target" class="w-5 h-5"></i>
                     <span class="text-sm font-medium">Training Ops</span>
                 </button>
                 <button data-nav="analytics"
-                    class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 text-gray-400 hover:text-green-400 hover:bg-green-900/30">
+                    class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 text-gray-400 hover:text-green-400 hover:bg-green-900/30"
+                    title="Intel & Reports">
                     <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
                     <span class="text-sm font-medium">Intel & Reports</span>
                 </button>
                 <button data-nav="settings"
-                    class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 text-gray-400 hover:text-green-400 hover:bg-green-900/30">
+                    class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 text-gray-400 hover:text-green-400 hover:bg-green-900/30"
+                    title="Comms Setup">
                     <i data-lucide="settings" class="w-5 h-5"></i>
                     <span class="text-sm font-medium">Comms Setup</span>
                 </button>
                 <button data-nav="help"
-                    class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 text-gray-400 hover:text-green-400 hover:bg-green-900/30">
+                    class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 text-gray-400 hover:text-green-400 hover:bg-green-900/30"
+                    title="Field Support">
                     <i data-lucide="help-circle" class="w-5 h-5"></i>
                     <span class="text-sm font-medium">Field Support</span>
                 </button>
@@ -314,7 +323,8 @@
             <!-- Collapse Toggle -->
             <div class="p-4 border-t border-green-500/30">
                 <button id="sidebarToggle"
-                    class="w-full flex items-center justify-center p-2 rounded-lg text-gray-400 hover:text-green-400 hover:bg-green-900/30 transition-colors">
+                    class="w-full flex items-center justify-center p-2 rounded-lg text-gray-400 hover:text-green-400 hover:bg-green-900/30 transition-colors"
+                    title="Toggle Sidebar">
                     <i data-lucide="minimize-2" class="w-5 h-5"></i>
                 </button>
             </div>
@@ -327,7 +337,8 @@
                 <!-- Search -->
                 <div class="flex-1 max-w-xl">
                     <button id="searchBtn"
-                        class="w-full flex items-center space-x-3 px-4 py-2 bg-green-900/30 border border-green-500/50 rounded-lg text-gray-400 hover:text-green-400 hover:bg-green-900/50 transition-colors">
+                        class="w-full flex items-center space-x-3 px-4 py-2 bg-green-900/30 border border-green-500/50 rounded-lg text-gray-400 hover:text-green-400 hover:bg-green-900/50 transition-colors"
+                        title="Search">
                         <i data-lucide="search" class="w-5 h-5"></i>
                         <span class="text-sm">Search or press Cmd+K...</span>
                     </button>
@@ -337,13 +348,16 @@
                 <div class="flex items-center space-x-4">
                     <!-- Theme Toggle -->
                     <div class="flex items-center space-x-1 p-1 bg-green-900/30 rounded-lg">
-                        <button data-theme="light" class="theme-btn p-1.5 rounded text-gray-400 hover:text-green-400">
+                        <button data-theme="light" class="theme-btn p-1.5 rounded text-gray-400 hover:text-green-400"
+                            title="Light Theme">
                             <i data-lucide="sun" class="w-4 h-4"></i>
                         </button>
-                        <button data-theme="dark" class="theme-btn p-1.5 rounded bg-green-600/20 text-green-400">
+                        <button data-theme="dark" class="theme-btn p-1.5 rounded bg-green-600/20 text-green-400"
+                            title="Dark Theme">
                             <i data-lucide="moon" class="w-4 h-4"></i>
                         </button>
-                        <button data-theme="auto" class="theme-btn p-1.5 rounded text-gray-400 hover:text-green-400">
+                        <button data-theme="auto" class="theme-btn p-1.5 rounded text-gray-400 hover:text-green-400"
+                            title="Auto Theme">
                             <i data-lucide="monitor" class="w-4 h-4"></i>
                         </button>
                     </div>
@@ -351,7 +365,8 @@
                     <!-- Notifications -->
                     <div class="relative">
                         <button id="notificationBtn"
-                            class="relative p-2 rounded-lg text-gray-400 hover:text-green-400 hover:bg-green-900/30 transition-colors">
+                            class="relative p-2 rounded-lg text-gray-400 hover:text-green-400 hover:bg-green-900/30 transition-colors"
+                            title="Notifications">
                             <i data-lucide="bell" class="w-5 h-5"></i>
                             <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
                         </button>
@@ -360,7 +375,8 @@
                     <!-- Profile -->
                     <div class="relative">
                         <button id="profileBtn"
-                            class="flex items-center space-x-2 p-2 rounded-lg text-gray-400 hover:text-green-400 hover:bg-green-900/30 transition-colors">
+                            class="flex items-center space-x-2 p-2 rounded-lg text-gray-400 hover:text-green-400 hover:bg-green-900/30 transition-colors"
+                            title="Profile">
                             <div
                                 class="w-8 h-8 bg-gradient-to-br from-green-600 to-green-400 rounded-full flex items-center justify-center">
                                 <i data-lucide="user" class="w-4 h-4 text-white"></i>
@@ -377,7 +393,8 @@
                             </div>
                             <div class="py-2">
                                 <button id="logoutBtn"
-                                    class="w-full flex items-center space-x-2 px-4 py-2 text-sm text-gray-400 hover:text-red-400 hover:bg-red-900/20 transition-colors">
+                                    class="w-full flex items-center space-x-2 px-4 py-2 text-sm text-gray-400 hover:text-red-400 hover:bg-red-900/20 transition-colors"
+                                    title="Logout">
                                     <i data-lucide="log-out" class="w-4 h-4"></i>
                                     <span>Logout</span>
                                 </button>
@@ -452,7 +469,8 @@
                             <div class="p-6 border-b border-white/10">
                                 <div class="flex items-center justify-between">
                                     <h3 class="text-lg font-semibold text-white">Recent Activity</h3>
-                                    <button class="text-sm text-blue-400 hover:text-blue-300">View All</button>
+                                    <button class="text-sm text-blue-400 hover:text-blue-300" title="View All">View
+                                        All</button>
                                 </div>
                             </div>
                             <div class="p-6 space-y-2" id="activityFeed">
@@ -467,17 +485,20 @@
                             </div>
                             <div class="p-6 space-y-3">
                                 <button id="quickScanBtn"
-                                    class="w-full flex items-center space-x-3 px-4 py-3 bg-blue-500/20 border border-blue-500/30 rounded-lg text-blue-400 hover:bg-blue-500/30 transition-colors">
+                                    class="w-full flex items-center space-x-3 px-4 py-3 bg-blue-500/20 border border-blue-500/30 rounded-lg text-blue-400 hover:bg-blue-500/30 transition-colors"
+                                    title="Quick Scan">
                                     <i data-lucide="qr-code" class="w-5 h-5"></i>
                                     <span>Start QR Scanner</span>
                                 </button>
                                 <button
-                                    class="w-full flex items-center space-x-3 px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-gray-400 hover:bg-white/10 hover:text-white transition-colors">
+                                    class="w-full flex items-center space-x-3 px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-gray-400 hover:bg-white/10 hover:text-white transition-colors"
+                                    title="Add Trainee">
                                     <i data-lucide="user-plus" class="w-5 h-5"></i>
                                     <span>Add Trainee</span>
                                 </button>
                                 <button
-                                    class="w-full flex items-center space-x-3 px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-gray-400 hover:bg-white/10 hover:text-white transition-colors">
+                                    class="w-full flex items-center space-x-3 px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-gray-400 hover:bg-white/10 hover:text-white transition-colors"
+                                    title="Export Report">
                                     <i data-lucide="download" class="w-5 h-5"></i>
                                     <span>Export Report</span>
                                 </button>
@@ -513,7 +534,8 @@
             <!-- Scanner Header -->
             <div class="flex items-center justify-between mb-6">
                 <h3 class="text-xl font-semibold text-white">QR Code Scanner</h3>
-                <button id="closeScanner" class="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors">
+                <button id="closeScanner" class="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors"
+                    title="Close Scanner">
                     <i data-lucide="x" class="w-5 h-5 text-white"></i>
                 </button>
             </div>
@@ -545,15 +567,18 @@
                 <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between">
                     <div class="flex items-center space-x-2">
                         <button id="flashlightBtn"
-                            class="p-3 rounded-lg bg-white/10 text-white hover:bg-white/20 transition-colors">
+                            class="p-3 rounded-lg bg-white/10 text-white hover:bg-white/20 transition-colors"
+                            title="Toggle Flashlight">
                             <i data-lucide="flashlight" class="w-5 h-5"></i>
                         </button>
                         <button id="zoomOutBtn"
-                            class="p-3 rounded-lg bg-white/10 text-white hover:bg-white/20 transition-colors">
+                            class="p-3 rounded-lg bg-white/10 text-white hover:bg-white/20 transition-colors"
+                            title="Zoom Out">
                             <i data-lucide="zoom-out" class="w-5 h-5"></i>
                         </button>
                         <button id="zoomInBtn"
-                            class="p-3 rounded-lg bg-white/10 text-white hover:bg-white/20 transition-colors">
+                            class="p-3 rounded-lg bg-white/10 text-white hover:bg-white/20 transition-colors"
+                            title="Zoom In">
                             <i data-lucide="zoom-in" class="w-5 h-5"></i>
                         </button>
                     </div>
@@ -579,7 +604,7 @@
                     <i data-lucide="search" class="w-5 h-5 text-gray-400"></i>
                     <input type="text" id="searchInput" placeholder="Search trainees, programs, reports..."
                         class="flex-1 bg-transparent text-white placeholder-gray-400 outline-none" autofocus />
-                    <button id="closeSearch">
+                    <button id="closeSearch" title="Close Search">
                         <i data-lucide="x" class="w-5 h-5 text-gray-400 hover:text-white"></i>
                     </button>
                 </div>
@@ -601,7 +626,8 @@
                     <h3 class="text-xl font-semibold text-white mb-2">Scan Successful!</h3>
                     <p class="text-gray-400 mb-4" id="scanResult">QR code scanned successfully</p>
                     <button id="closeSuccess"
-                        class="px-6 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors">
+                        class="px-6 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors"
+                        title="Done">
                         Done
                     </button>
                 </div>
