@@ -39,10 +39,11 @@
 
         .glassmorphism-hover:hover {
             background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border-color: rgba(0, 255, 0, 0.5);
         }
 
         .military-text {
@@ -54,157 +55,164 @@
             color: #8bc34a;
         }
 
-        .military-warning {
-            color: #ff9800;
-        }
-
-        .military-danger {
-            color: #f44336;
-        }
-
-        .tactical-button {
-            background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
-            border: 2px solid #4caf50;
-            color: #e8f5e9;
-            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .tactical-button:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .tactical-button:hover:before {
-            left: 100%;
-        }
-
-        .tactical-button:hover {
-            background: linear-gradient(135deg, #2e7d32 0%, #388e3c 100%);
-            border-color: #66bb6a;
-            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
-
         .tactical-font {
-            font-family: 'Russo One', sans-serif;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .status-online {
-            color: #4caf50;
-            text-shadow: 0 0 5px rgba(76, 175, 80, 0.8);
-        }
-
-        .status-offline {
-            color: #f44336;
-            text-shadow: 0 0 5px rgba(244, 67, 54, 0.8);
-        }
-
-        .status-warning {
-            color: #ff9800;
-            text-shadow: 0 0 5px rgba(255, 152, 0, 0.8);
+            font-family: 'Russo One', cursive;
         }
 
         .animate-pulse-slow {
-            animation: tacticalPulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
 
-        @keyframes tacticalPulse {
+        @keyframes pulse {
 
             0%,
             100% {
-                box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-                border-color: #4caf50;
+                opacity: 1;
             }
 
             50% {
-                box-shadow: 0 4px 25px rgba(76, 175, 80, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-                border-color: #8bc34a;
+                opacity: 0.7;
             }
         }
 
-        .radar-sweep {
-            position: relative;
-            overflow: hidden;
+        .counter-animation {
+            animation: counterPulse 0.6s ease-out;
         }
 
-        .radar-sweep:before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 200%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #4caf50, transparent);
-            transform-origin: left center;
-            animation: radar 3s linear infinite;
-        }
-
-        @keyframes radar {
+        @keyframes counterPulse {
             0% {
-                transform: rotate(0deg);
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
             }
 
             100% {
-                transform: rotate(360deg);
+                transform: scale(1);
+            }
+        }
+
+        .success-flash {
+            animation: successFlash 0.8s ease-out;
+        }
+
+        @keyframes successFlash {
+            0% {
+                background-color: rgba(76, 175, 80, 0.2);
+            }
+
+            50% {
+                background-color: rgba(76, 175, 80, 0.4);
+            }
+
+            100% {
+                background-color: rgba(76, 175, 80, 0.2);
             }
         }
 
         .scanner-line {
             animation: scan 2s linear infinite;
-            background: linear-gradient(90deg, transparent, #ff9800, transparent);
         }
 
         @keyframes scan {
             0% {
-                top: 0%;
-            }
-
-            50% {
-                top: 100%;
+                top: 0;
             }
 
             100% {
-                top: 0%;
+                top: 100%;
             }
         }
     </style>
 </head>
 
-<body class="military-gradient camouflage-pattern text-white min-h-screen flex items-center justify-center">
-    <div class="w-full max-w-md mx-4">
-        <!-- Login Container -->
-        <div class="glassmorphism rounded-2xl p-8">
-            <!-- Header -->
-            <div class="text-center mb-8">
-                <div class="flex justify-center mb-6">
-                    <div
-                        class="w-16 h-16 bg-gradient-to-br from-green-600 to-green-400 rounded-xl flex items-center justify-center radar-sweep">
-                        <i data-lucide="shield" class="w-8 h-8 text-white"></i>
-                    </div>
+<body class="military-pattern">
+    <!-- Left Panel -->
+    <div class="fixed left-0 top-0 h-full w-1/2 flex items-center justify-center p-8 hidden lg:block">
+        <div class="text-center space-y-6">
+            <!-- Logo -->
+            <div
+                class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-green-600 to-green-500 rounded-full mb-6">
+                <i data-lucide="shield" class="w-10 h-10 text-white"></i>
+            </div>
+
+            <!-- Title -->
+            <h1 class="text-4xl font-bold military-text tactical-font mb-4">Tactical Operations</h1>
+            <p class="text-xl text-gray-300 mb-8">Secure Access Portal</p>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-3 gap-6 mb-8">
+                <div class="text-center">
+                    <div class="text-3xl font-bold military-text counter-animation">2487</div>
+                    <div class="text-sm text-gray-400">Personnel</div>
                 </div>
-                <h1 class="text-3xl font-bold military-text mb-2 tactical-font">Tactical Access</h1>
-                <p class="text-gray-400">Secure authentication required for mission access</p>
+                <div class="text-center">
+                    <div class="text-3xl font-bold military-text counter-animation">1842</div>
+                    <div class="text-sm text-gray-400">Active</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold military-text counter-animation">342</div>
+                    <div class="text-sm text-gray-400">Scans</div>
+                </div>
+            </div>
+
+            <!-- Features -->
+            <div class="space-y-4 text-left max-w-md mx-auto">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-green-600/20 rounded-lg flex items-center justify-center">
+                        <i data-lucide="shield-check" class="w-4 h-4 text-green-400"></i>
+                    </div>
+                    <span class="text-gray-300">Military-grade security</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-green-600/20 rounded-lg flex items-center justify-center">
+                        <i data-lucide="radar" class="w-4 h-4 text-green-400"></i>
+                    </div>
+                    <span class="text-gray-300">Advanced scanning system</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-green-600/20 rounded-lg flex items-center justify-center">
+                        <i data-lucide="activity" class="w-4 h-4 text-green-400"></i>
+                    </div>
+                    <span class="text-gray-300">Real-time monitoring</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Panel - Login Form -->
+    <div class="min-h-screen flex items-center justify-center lg:justify-end lg:pr-16 p-8">
+        <div class="w-full max-w-md">
+            <!-- Mobile Logo -->
+            <div class="text-center mb-8 lg:hidden">
+                <div
+                    class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-green-600 to-green-500 rounded-full mb-4">
+                    <i data-lucide="shield" class="w-8 h-8 text-white"></i>
+                </div>
+                <h1 class="text-3xl font-bold military-text tactical-font mb-2">Tactical Operations</h1>
+                <p class="text-gray-400">Secure Access Portal</p>
             </div>
 
             <!-- Login Form -->
-            <form id="loginForm" class="space-y-6">
-                <!-- Error Message -->
-                <div id="errorMessage" class="hidden rounded-md bg-red-900/50 border border-red-500/50 p-4">
-                    <div class="flex">
-                        <i data-lucide="alert-triangle" class="h-5 w-5 text-red-400"></i>
-                        <div class="ml-3">
-                            <p class="text-sm text-red-400" id="errorText">Authentication failed</p>
-                        </div>
-                    </div>
+            <form id="loginForm" class="glassmorphism rounded-xl p-8 space-y-6">
+                <!-- Header -->
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl font-bold military-text mb-2">Welcome Back</h2>
+                    <p class="text-gray-400">Enter your credentials to access the system</p>
+                </div>
+
+                <!-- Security Level -->
+                <div>
+                    <label for="securityLevel" class="block text-sm font-medium military-accent mb-2">Security
+                        Clearance</label>
+                    <select id="securityLevel" name="securityLevel" required
+                        class="w-full px-4 py-3 bg-green-900/30 border border-green-500/50 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-400 focus:ring-2 focus:ring-green-400/50 transition-colors">
+                        <option value="">Select clearance level</option>
+                        <option value="field">Field Operator</option>
+                        <option value="squad">Squad Leader</option>
+                        <option value="command">Command Center</option>
+                    </select>
                 </div>
 
                 <!-- Personnel ID -->
@@ -236,84 +244,87 @@
                     </div>
                 </div>
 
-                <!-- Security Level -->
-                <div>
-                    <label for="securityLevel" class="block text-sm font-medium military-accent mb-2">Security
-                        Clearance</label>
-                    <select id="securityLevel" name="securityLevel"
-                        class="w-full px-4 py-3 bg-green-900/30 border border-green-500/50 rounded-lg text-white focus:outline-none focus:border-green-400 focus:ring-2 focus:ring-green-400/50 transition-colors">
-                        <option value="field">Field Operator</option>
-                        <option value="squad">Squad Leader</option>
-                        <option value="command">Command Center</option>
-                    </select>
+                <!-- Remember Me -->
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input type="checkbox" id="rememberMe" name="rememberMe" class="mr-2">
+                        <label for="rememberMe" class="text-sm text-gray-400">Remember me</label>
+                    </div>
+                    <a href="#" class="text-sm military-accent hover:text-green-400">Forgot code?</a>
                 </div>
 
-                <!-- Remember Device -->
-                <div class="flex items-center">
-                    <input id="rememberDevice" name="rememberDevice" type="checkbox"
-                        class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded" />
-                    <label for="rememberDevice" class="ml-2 block text-sm text-gray-400">
-                        Remember this device
-                    </label>
-                </div>
-
-                <!-- Login Button -->
+                <!-- Submit Button -->
                 <button type="submit"
-                    class="w-full tactical-button rounded-lg px-6 py-3 text-base font-medium flex items-center justify-center space-x-2 transition-all duration-200">
-                    <i data-lucide="shield-check" class="w-5 h-5"></i>
-                    <span>Authenticate Access</span>
+                    class="w-full px-6 py-3 bg-gradient-to-r from-green-600 to-green-500 text-white rounded-lg hover:from-green-700 hover:to-green-600 transition-all duration-200 transform hover:scale-105 font-semibold">
+                    <span class="flex items-center justify-center">
+                        <i data-lucide="log-in" class="w-5 h-5 mr-2"></i>
+                        Login
+                    </span>
                 </button>
+
+                <!-- Demo Credentials -->
+                <div class="mt-6 p-4 bg-green-900/20 rounded-lg border border-green-500/30">
+                    <p class="text-sm font-medium military-accent mb-3">Demo Credentials:</p>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Field Operator:</span>
+                            <span class="text-green-400 font-mono">field001 / alpha123</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Squad Leader:</span>
+                            <span class="text-green-400 font-mono">squad001 / bravo456</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Command Center:</span>
+                            <span class="text-green-400 font-mono">command001 / charlie789</span>
+                        </div>
+                    </div>
+                </div>
             </form>
 
-            <!-- System Status -->
-            <div class="mt-8 p-4 bg-green-900/20 border border-green-500/30 rounded-lg">
-                <h3 class="text-sm font-semibold military-accent mb-3">System Status</h3>
-                <div class="space-y-2 text-sm">
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Network:</span>
-                        <span class="status-online">ONLINE</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Security:</span>
-                        <span class="status-online">ACTIVE</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Database:</span>
-                        <span class="status-online">SYNCED</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Server:</span>
-                        <span class="status-online">OPERATIONAL</span>
-                    </div>
-                </div>
-            </div>
+            <!-- Security Notice -->
+        </div>
+        <div class="flex justify-between">
+            <span class="text-gray-400">Security:</span>
+            <span class="status-online">ACTIVE</span>
+        </div>
+        <div class="flex justify-between">
+            <span class="text-gray-400">Database:</span>
+            <span class="status-online">SYNCED</span>
+        </div>
+        <div class="flex justify-between">
+            <span class="text-gray-400">Server:</span>
+            <span class="status-online">OPERATIONAL</span>
+        </div>
+    </div>
+    </div>
 
-            <!-- Demo Access -->
-            <div class="mt-6 text-center">
-                <p class="text-sm text-gray-400 mb-3">Demo Access Credentials</p>
-                <div class="space-y-2">
-                    <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-3">
-                        <p class="text-xs military-accent">FIELD OPERATOR</p>
-                        <p class="text-xs text-gray-400">ID: field001 / Code: alpha123</p>
-                    </div>
-                    <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-3">
-                        <p class="text-xs military-accent">SQUAD LEADER</p>
-                        <p class="text-xs text-gray-400">ID: squad001 / Code: bravo456</p>
-                    </div>
-                    <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-3">
-                        <p class="text-xs military-accent">COMMAND CENTER</p>
-                        <p class="text-xs text-gray-400">ID: command001 / Code: charlie789</p>
-                    </div>
-                </div>
+    <!-- Demo Access -->
+    <div class="mt-6 text-center">
+        <p class="text-sm text-gray-400 mb-3">Demo Access Credentials</p>
+        <div class="space-y-2">
+            <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-3">
+                <p class="text-xs military-accent">FIELD OPERATOR</p>
+                <p class="text-xs text-gray-400">ID: field001 / Code: alpha123</p>
             </div>
-
-            <!-- Footer -->
-            <div class="mt-8 text-center">
-                <p class="text-xs text-gray-500">
-                    Tactical Operations System v2.0.1 | Secure Connection Established
-                </p>
+            <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-3">
+                <p class="text-xs military-accent">SQUAD LEADER</p>
+                <p class="text-xs text-gray-400">ID: squad001 / Code: bravo456</p>
+            </div>
+            <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-3">
+                <p class="text-xs military-accent">COMMAND CENTER</p>
+                <p class="text-xs text-gray-400">ID: command001 / Code: charlie789</p>
             </div>
         </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="mt-8 text-center">
+        <p class="text-xs text-gray-500">
+            Tactical Operations System v2.0.1 | Secure Connection Established
+        </p>
+    </div>
+    </div>
     </div>
 
     <script>
