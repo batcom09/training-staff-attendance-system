@@ -15,11 +15,25 @@
             font-family: 'Roboto Mono', monospace;
         }
 
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: #0a0e0a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
         .military-gradient {
             background: linear-gradient(135deg, #2d1810 0%, #3e2723 25%, #1b5e20 50%, #33691e 75%, #263238 100%);
         }
 
         .camouflage-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             background-image:
                 radial-gradient(circle at 20% 80%, #2e7d32 0%, transparent 50%),
                 radial-gradient(circle at 80% 20%, #1b5e20 0%, transparent 50%),
@@ -27,6 +41,7 @@
                 linear-gradient(45deg, #1b4332 25%, #2d1810 25%, #2d1810 50%, #1b4332 50%, #1b4332 75%, #2d1810 75%);
             background-size: 200px 200px, 200px 200px, 100px 100px, 100px 100px;
             background-position: 0 0, 100px 0, 0 0, 50px 50px;
+            opacity: 0.3;
         }
 
         .glassmorphism {
@@ -42,8 +57,7 @@
             -webkit-backdrop-filter: blur(12px);
             backdrop-filter: blur(12px);
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-            border-color: rgba(0, 255, 0, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .military-text {
@@ -127,65 +141,11 @@
     </style>
 </head>
 
-<body class="military-pattern">
-    <!-- Left Panel -->
-    <div class="fixed left-0 top-0 h-full w-1/2 flex items-center justify-center p-8 hidden lg:block">
-        <div class="text-center space-y-6">
-            <!-- Logo -->
-            <div
-                class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-green-600 to-green-500 rounded-full mb-6">
-                <i data-lucide="shield" class="w-10 h-10 text-white"></i>
-            </div>
-
-            <!-- Title -->
-            <h1 class="text-4xl font-bold military-text tactical-font mb-4">Tactical Operations</h1>
-            <p class="text-xl text-gray-300 mb-8">Secure Access Portal</p>
-
-            <!-- Stats -->
-            <div class="grid grid-cols-3 gap-6 mb-8">
-                <div class="text-center">
-                    <div class="text-3xl font-bold military-text counter-animation">2487</div>
-                    <div class="text-sm text-gray-400">Personnel</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-3xl font-bold military-text counter-animation">1842</div>
-                    <div class="text-sm text-gray-400">Active</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-3xl font-bold military-text counter-animation">342</div>
-                    <div class="text-sm text-gray-400">Scans</div>
-                </div>
-            </div>
-
-            <!-- Features -->
-            <div class="space-y-4 text-left max-w-md mx-auto">
-                <div class="flex items-center space-x-3">
-                    <div class="w-8 h-8 bg-green-600/20 rounded-lg flex items-center justify-center">
-                        <i data-lucide="shield-check" class="w-4 h-4 text-green-400"></i>
-                    </div>
-                    <span class="text-gray-300">Military-grade security</span>
-                </div>
-                <div class="flex items-center space-x-3">
-                    <div class="w-8 h-8 bg-green-600/20 rounded-lg flex items-center justify-center">
-                        <i data-lucide="radar" class="w-4 h-4 text-green-400"></i>
-                    </div>
-                    <span class="text-gray-300">Advanced scanning system</span>
-                </div>
-                <div class="flex items-center space-x-3">
-                    <div class="w-8 h-8 bg-green-600/20 rounded-lg flex items-center justify-center">
-                        <i data-lucide="activity" class="w-4 h-4 text-green-400"></i>
-                    </div>
-                    <span class="text-gray-300">Real-time monitoring</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Right Panel - Login Form -->
-    <div class="min-h-screen flex items-center justify-center lg:justify-end lg:pr-16 p-8">
+<body class="camouflage-pattern">
+    <div class="min-h-screen flex items-center justify-center p-4">
         <div class="w-full max-w-md">
-            <!-- Mobile Logo -->
-            <div class="text-center mb-8 lg:hidden">
+            <!-- Logo Section -->
+            <div class="text-center mb-8">
                 <div
                     class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-green-600 to-green-500 rounded-full mb-4">
                     <i data-lucide="shield" class="w-8 h-8 text-white"></i>
@@ -196,12 +156,6 @@
 
             <!-- Login Form -->
             <form id="loginForm" class="glassmorphism rounded-xl p-8 space-y-6">
-                <!-- Header -->
-                <div class="text-center mb-8">
-                    <h2 class="text-2xl font-bold military-text mb-2">Welcome Back</h2>
-                    <p class="text-gray-400">Enter your credentials to access the system</p>
-                </div>
-
                 <!-- Security Level -->
                 <div>
                     <label for="securityLevel" class="block text-sm font-medium military-accent mb-2">Security
@@ -245,170 +199,76 @@
                 </div>
 
                 <!-- Remember Me -->
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                        <input type="checkbox" id="rememberMe" name="rememberMe" class="mr-2">
-                        <label for="rememberMe" class="text-sm text-gray-400">Remember me</label>
-                    </div>
-                    <a href="#" class="text-sm military-accent hover:text-green-400">Forgot code?</a>
+                <div class="flex items-center">
+                    <input type="checkbox" id="rememberMe" name="rememberMe" class="mr-2">
+                    <label for="rememberMe" class="text-sm text-gray-400">Remember me</label>
                 </div>
 
                 <!-- Submit Button -->
-                <button type="submit"
-                    class="w-full px-6 py-3 bg-gradient-to-r from-green-600 to-green-500 text-white rounded-lg hover:from-green-700 hover:to-green-600 transition-all duration-200 transform hover:scale-105 font-semibold">
-                    <span class="flex items-center justify-center">
-                        <i data-lucide="log-in" class="w-5 h-5 mr-2"></i>
-                        Login
-                    </span>
-                </button>
+                <button type="submit" </div>
 
-                <!-- Demo Credentials -->
-                <div class="mt-6 p-4 bg-green-900/20 rounded-lg border border-green-500/30">
-                    <p class="text-sm font-medium military-accent mb-3">Demo Credentials:</p>
-                    <div class="space-y-2 text-sm">
-                        <div class="flex justify-between">
-                            <span class="text-gray-400">Field Operator:</span>
-                            <span class="text-green-400 font-mono">field001 / alpha123</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-400">Squad Leader:</span>
-                            <span class="text-green-400 font-mono">squad001 / bravo456</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-400">Command Center:</span>
-                            <span class="text-green-400 font-mono">command001 / charlie789</span>
-                        </div>
-                    </div>
-                </div>
-            </form>
+                    <script>
+                        // Initialize Lucide icons
+                        lucide.createIcons();
 
-            <!-- Security Notice -->
-            <div class="mt-6 text-center">
-                <p class="text-xs text-gray-500">
-                    <i data-lucide="shield-check" class="w-4 h-4 inline mr-1"></i>
-                    Secured Connection • Authorized Personnel Only
-                </p>
-            </div>
-        </div>
-    </div>
+                        // Toggle password visibility
+                        document.getElementById('togglePassword').addEventListener('click', function () {
+                            const passwordInput = document.getElementById('accessCode');
+                            const icon = this.querySelector('i');
 
-    <script>
-        // Initialize Lucide icons
-        lucide.createIcons();
+                            if (passwordInput.type === 'password') {
+                                passwordInput.type = 'text';
+                                icon.setAttribute('data-lucide', 'eye-off');
+                            } else {
+                                passwordInput.type = 'password';
+                                icon.setAttribute('data-lucide', 'eye');
+                            }
 
-        // Toggle password visibility
-        document.getElementById('togglePassword').addEventListener('click', function () {
-            const passwordInput = document.getElementById('accessCode');
-            const icon = this.querySelector('i');
+                            lucide.createIcons();
+                        });
 
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                icon.setAttribute('data-lucide', 'eye-off');
-            } else {
-                passwordInput.type = 'password';
-                icon.setAttribute('data-lucide', 'eye');
-            }
-            lucide.createIcons();
-        });
+                        // Login form submission
+                        document.getElementById('loginForm').addEventListener('submit', function (e) {
+                            e.preventDefault();
 
-        // Handle login form submission
-        document.getElementById('loginForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            const personnelId = document.getElementById('personnelId').value;
-            const accessCode = document.getElementById('accessCode').value;
-            const securityLevel = document.getElementById('securityLevel').value;
-            const errorMessage = document.getElementById('errorMessage');
-            const errorText = document.getElementById('errorText');
-
-            // Hide previous errors
-            errorMessage.classList.add('hidden');
-
-            // Demo authentication logic
-            const validCredentials = {
-                'field001': { code: 'alpha123', level: 'field', name: 'Field Operator Alpha' },
-                'squad001': { code: 'bravo456', level: 'squad', name: 'Squad Leader Bravo' },
-                'command001': { code: 'charlie789', level: 'command', name: 'Command Center Charlie' }
-            };
-
-            const credential = validCredentials[personnelId];
-
-            if (credential && credential.code === accessCode) {
-                // Success - redirect to dashboard
-                localStorage.setItem('currentUser', JSON.stringify({
-                    id: personnelId,
-                    name: credential.name,
-                    level: securityLevel,
-                    role: credential.level
-                }));
-
-                // Show success message
-                const successDiv = document.createElement('div');
-                successDiv.className = 'fixed inset-0 bg-green-900/95 backdrop-blur-lg z-50 flex items-center justify-center';
-                successDiv.innerHTML = `
-                    <div class="glassmorphism rounded-xl p-8 max-w-sm mx-4">
-                        <div class="flex flex-col items-center text-center">
-                            <div class="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mb-4">
-                                <i data-lucide="check-circle" class="w-8 h-8 text-green-400"></i>
-                            </div>
-                            <h3 class="text-xl font-semibold military-text mb-2">Access Granted</h3>
-                            <p class="text-gray-400 mb-4">Welcome, ${credential.name}</p>
-                            <div class="text-sm text-gray-500 mb-4">
-                                <p>Security Level: ${securityLevel.toUpperCase()}</p>
-                                <p>Credentials Verified</p>
-                            </div>
-                            <button onclick="proceedToDashboard()" class="tactical-button rounded-lg px-6 py-2 text-sm font-medium">
-                                Enter Command Center
-                            </button>
-                        </div>
-                    </div>
-                `;
-                document.body.appendChild(successDiv);
-                lucide.createIcons();
-
-            } else {
-                // Error - show error message
-                errorText.textContent = 'Invalid credentials. Access denied.';
-                errorMessage.classList.remove('hidden');
-
-                // Shake animation
-                const form = document.getElementById('loginForm');
-                form.classList.add('animate-shake');
-                setTimeout(() => {
-                    form.classList.remove('animate-shake');
-                }, 500);
+                            const personnelId = document.getElementById('personnelId').value;
+                            const securityLevel = document.getElementById('securityLevel').value;
+                            const accessCode = document.getElementById('accessCode').value;
+                            const rememberMe = document.getElementById('rememberMe').checked;
+                            form.classList.remove('animate-shake');
+                        }, 500);
             }
         });
 
-        // Proceed to dashboard
-        function proceedToDashboard() {
-            window.location.href = '/index.html';
-        }
+                        // Proceed to dashboard
+                        function proceedToDashboard() {
+                            window.location.href = '/index.html';
+                        }
 
-        // Check system status on load
-        window.addEventListener('load', function () {
-            // Simulate system checks
-            setTimeout(() => {
-                console.log('Tactical Operations System initialized');
-                console.log('Security protocols active');
-                console.log('Network connection secure');
-            }, 1000);
-        });
+                        // Check system status on load
+                        window.addEventListener('load', function () {
+                            // Simulate system checks
+                            setTimeout(() => {
+                                console.log('Tactical Operations System initialized');
+                                console.log('Security protocols active');
+                                console.log('Network connection secure');
+                            }, 1000);
+                        });
 
-        // Add shake animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes shake {
-                0%, 100% { transform: translateX(0); }
-                25% { transform: translateX(-5px); }
-                75% { transform: translateX(5px); }
-            }
-            .animate-shake {
-                animation: shake 0.3s ease-in-out;
-            }
+                        // Add shake animation
+                        const style = document.createElement('style');
+                        style.textContent = `
+                @keyframes shake {
+                    0 %, 100 % { transform: translateX(0); }
+                    25 % { transform: translateX(-5px); }
+                    75 % { transform: translateX(5px); }
+                }
+            .animate - shake {
+                    animation: shake 0.3s ease -in -out;
+                }
         `;
-        document.head.appendChild(style);
-    </script>
+                        document.head.appendChild(style);
+                    </script>
 </body>
 
 </html>
