@@ -39,10 +39,11 @@
 
         .glassmorphism-hover:hover {
             background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border-color: rgba(76, 175, 80, 0.5);
         }
 
         .military-text {
@@ -271,7 +272,7 @@
             <!-- Navigation -->
             <nav class="flex-1 p-4 space-y-2">
                 <button data-nav="dashboard"
-                    class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 tactical-card text-green-400 border border-green-500/50"
+                    class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 tactical-card text-green-400 border border-green-500/50 active"
                     title="Dashboard">
                     <i data-lucide="home" class="w-5 h-5"></i>
                     <span class="text-sm font-medium">Command Center</span>
@@ -931,7 +932,7 @@
                     <p class="text-gray-400">Mission status: All systems operational. Training deployment in progress.</p>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                        <div class="stat-card tactical-card rounded-xl p-6">
+                        <div class="stat-card tactical-card rounded-xl p-6 shimmer">
                             <div class="flex items-center justify-between mb-4">
                                 <div class="p-3 rounded-lg bg-green-600/20">
                                     <i data-lucide="users" class="w-6 h-6 text-green-400"></i>
@@ -941,7 +942,7 @@
                             <div class="text-2xl font-bold military-text mb-1 counter" data-target="2487">0</div>
                             <div class="text-sm text-gray-400">Total Personnel</div>
                         </div>
-                        <div class="stat-card tactical-card rounded-xl p-6">
+                        <div class="stat-card tactical-card rounded-xl p-6 shimmer">
                             <div class="flex items-center justify-between mb-4">
                                 <div class="p-3 rounded-lg bg-green-600/20">
                                     <i data-lucide="activity" class="w-6 h-6 text-green-400"></i>
@@ -951,7 +952,7 @@
                             <div class="text-2xl font-bold military-text mb-1 counter" data-target="1842">0</div>
                             <div class="text-sm text-gray-400">Active Duty</div>
                         </div>
-                        <div class="stat-card tactical-card rounded-xl p-6">
+                        <div class="stat-card tactical-card rounded-xl p-6 shimmer">
                             <div class="flex items-center justify-between mb-4">
                                 <div class="p-3 rounded-lg bg-orange-600/20">
                                     <i data-lucide="radar" class="w-6 h-6 text-orange-400"></i>
@@ -961,7 +962,7 @@
                             <div class="text-2xl font-bold military-text mb-1 counter" data-target="342">0</div>
                             <div class="text-sm text-gray-400">Scans Today</div>
                         </div>
-                        <div class="stat-card tactical-card rounded-xl p-6">
+                        <div class="stat-card tactical-card rounded-xl p-6 shimmer">
                             <div class="flex items-center justify-between mb-4">
                                 <div class="p-3 rounded-lg bg-yellow-600/20">
                                     <i data-lucide="target" class="w-6 h-6 text-yellow-400"></i>
