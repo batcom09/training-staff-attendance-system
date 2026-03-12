@@ -1,0 +1,53 @@
+{
+  "name": "training-attendance-frontend",
+  "version": "1.0.0",
+  "description": "Frontend React app for Training Staff Attendance Management System",
+  "private": true,
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.20.1",
+    "react-query": "^3.39.3",
+    "axios": "^1.6.2",
+    "react-hook-form": "^7.48.2",
+    "react-hot-toast": "^2.4.1",
+    "lucide-react": "^0.294.0",
+    "recharts": "^2.8.0",
+    "date-fns": "^2.30.0",
+    "react-qr-reader": "^3.0.0-beta-1",
+    "socket.io-client": "^4.7.4",
+    "react-calendar": "^4.8.0",
+    "react-dropzone": "^14.2.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "react-scripts": "5.0.1",
+    "tailwindcss": "^3.3.6",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32"
+  },
+  "proxy": "http://localhost:5001"
+}

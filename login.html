@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tactical Operations - Secure Access</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Russo+One&family=Roboto+Mono:wght@300;400;500;700&display=swap');
+        
+        * {
+            font-family: 'Roboto Mono', monospace;
+        }
+        
+        .military-gradient {
+            background: linear-gradient(135deg, #2d1810 0%, #3e2723 25%, #1b5e20 50%, #33691e 75%, #263238 100%);
+        }
+        
+        .camouflage-pattern {
+            background-image: 
+                radial-gradient(circle at 20% 80%, #2e7d32 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, #1b5e20 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, #3e2723 0%, transparent 50%),
+                linear-gradient(45deg, #1b4332 25%, #2d1810 25%, #2d1810 50%, #1b4332 50%, #1b4332 75%, #2d1810 75%);
+            background-size: 200px 200px, 200px 200px, 100px 100px, 100px 100px;
+            background-position: 0 0, 100px 0, 0 0, 50px 50px;
+        }
+        
+        .glassmorphism {
+            background: rgba(45, 24, 16, 0.8);
+            backdrop-filter: blur(10px);
+            border: 2px solid #4caf50;
+            box-shadow: 0 4px 20px rgba(76, 175, 80, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        
+        .glassmorphism-hover:hover {
+            background: rgba(45, 24, 16, 0.9);
+            backdrop-filter: blur(12px);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(76, 175, 80, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border-color: #66bb6a;
+        }
+        
+        .military-text {
+            color: #4caf50;
+            text-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+        }
+        
+        .military-accent {
+            color: #8bc34a;
+        }
+        
+        .military-warning {
+            color: #ff9800;
+        }
+        
+        .military-danger {
+            color: #f44336;
+        }
+        
+        .tactical-button {
+            background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
+            border: 2px solid #4caf50;
+            color: #e8f5e9;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tactical-button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .tactical-button:hover:before {
+            left: 100%;
+        }
+        
+        .tactical-button:hover {
+            background: linear-gradient(135deg, #2e7d32 0%, #388e3c 100%);
+            border-color: #66bb6a;
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        
+        .tactical-font {
+            font-family: 'Russo One', sans-serif;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .status-online {
+            color: #4caf50;
+            text-shadow: 0 0 5px rgba(76, 175, 80, 0.8);
+        }
+        
+        .status-offline {
+            color: #f44336;
+            text-shadow: 0 0 5px rgba(244, 67, 54, 0.8);
+        }
+        
+        .status-warning {
+            color: #ff9800;
+            text-shadow: 0 0 5px rgba(255, 152, 0, 0.8);
+        }
+        
+        .animate-pulse-slow {
+            animation: tacticalPulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes tacticalPulse {
+            0%, 100% { 
+                box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+                border-color: #4caf50;
+            }
+            50% { 
+                box-shadow: 0 4px 25px rgba(76, 175, 80, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+                border-color: #8bc34a;
+            }
+        }
+        
+        .radar-sweep {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .radar-sweep:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #4caf50, transparent);
+            transform-origin: left center;
+            animation: radar 3s linear infinite;
+        }
+        
+        @keyframes radar {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .scanner-line {
+            animation: scan 2s linear infinite;
+            background: linear-gradient(90deg, transparent, #ff9800, transparent);
+        }
+        
+        @keyframes scan {
+            0% { top: 0%; }
+            50% { top: 100%; }
+            100% { top: 0%; }
+        }
+    </style>
+</head>
+<body class="military-gradient camouflage-pattern text-white min-h-screen flex items-center justify-center">
+    <div class="w-full max-w-md mx-4">
+        <!-- Login Container -->
+        <div class="glassmorphism rounded-2xl p-8">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <div class="flex justify-center mb-6">
+                    <div class="w-16 h-16 bg-gradient-to-br from-green-600 to-green-400 rounded-xl flex items-center justify-center radar-sweep">
+                        <i data-lucide="shield" class="w-8 h-8 text-white"></i>
+                    </div>
+                </div>
+                <h1 class="text-3xl font-bold military-text mb-2 tactical-font">Tactical Access</h1>
+                <p class="text-gray-400">Secure authentication required for mission access</p>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="space-y-6">
+                <!-- Error Message -->
+                <div id="errorMessage" class="hidden rounded-md bg-red-900/50 border border-red-500/50 p-4">
+                    <div class="flex">
+                        <i data-lucide="alert-triangle" class="h-5 w-5 text-red-400"></i>
+                        <div class="ml-3">
+                            <p class="text-sm text-red-400" id="errorText">Authentication failed</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Personnel ID -->
+                <div>
+                    <label for="personnelId" class="block text-sm font-medium military-accent mb-2">Personnel ID</label>
+                    <div class="relative">
+                        <input
+                            id="personnelId"
+                            name="personnelId"
+                            type="text"
+                            required
+                            class="w-full px-4 py-3 bg-green-900/30 border border-green-500/50 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-400 focus:ring-2 focus:ring-green-400/50 transition-colors"
+                            placeholder="Enter personnel ID"
+                        />
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                            <i data-lucide="user" class="w-5 h-5 text-gray-400"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Access Code -->
+                <div>
+                    <label for="accessCode" class="block text-sm font-medium military-accent mb-2">Access Code</label>
+                    <div class="relative">
+                        <input
+                            id="accessCode"
+                            name="accessCode"
+                            type="password"
+                            required
+                            class="w-full px-4 py-3 bg-green-900/30 border border-green-500/50 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-400 focus:ring-2 focus:ring-green-400/50 transition-colors"
+                            placeholder="Enter access code"
+                        />
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                            <button type="button" id="togglePassword" class="text-gray-400 hover:text-green-400">
+                                <i data-lucide="eye" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security Level -->
+                <div>
+                    <label for="securityLevel" class="block text-sm font-medium military-accent mb-2">Security Clearance</label>
+                    <select
+                        id="securityLevel"
+                        name="securityLevel"
+                        class="w-full px-4 py-3 bg-green-900/30 border border-green-500/50 rounded-lg text-white focus:outline-none focus:border-green-400 focus:ring-2 focus:ring-green-400/50 transition-colors"
+                    >
+                        <option value="field">Field Operator</option>
+                        <option value="squad">Squad Leader</option>
+                        <option value="command">Command Center</option>
+                    </select>
+                </div>
+
+                <!-- Remember Device -->
+                <div class="flex items-center">
+                    <input
+                        id="rememberDevice"
+                        name="rememberDevice"
+                        type="checkbox"
+                        class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
+                    />
+                    <label for="rememberDevice" class="ml-2 block text-sm text-gray-400">
+                        Remember this device
+                    </label>
+                </div>
+
+                <!-- Login Button -->
+                <button
+                    type="submit"
+                    class="w-full tactical-button rounded-lg px-6 py-3 text-base font-medium flex items-center justify-center space-x-2 transition-all duration-200"
+                >
+                    <i data-lucide="shield-check" class="w-5 h-5"></i>
+                    <span>Authenticate Access</span>
+                </button>
+            </form>
+
+            <!-- System Status -->
+            <div class="mt-8 p-4 bg-green-900/20 border border-green-500/30 rounded-lg">
+                <h3 class="text-sm font-semibold military-accent mb-3">System Status</h3>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Network:</span>
+                        <span class="status-online">ONLINE</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Security:</span>
+                        <span class="status-online">ACTIVE</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Database:</span>
+                        <span class="status-online">SYNCED</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Server:</span>
+                        <span class="status-online">OPERATIONAL</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Demo Access -->
+            <div class="mt-6 text-center">
+                <p class="text-sm text-gray-400 mb-3">Demo Access Credentials</p>
+                <div class="space-y-2">
+                    <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-3">
+                        <p class="text-xs military-accent">FIELD OPERATOR</p>
+                        <p class="text-xs text-gray-400">ID: field001 / Code: alpha123</p>
+                    </div>
+                    <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-3">
+                        <p class="text-xs military-accent">SQUAD LEADER</p>
+                        <p class="text-xs text-gray-400">ID: squad001 / Code: bravo456</p>
+                    </div>
+                    <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-3">
+                        <p class="text-xs military-accent">COMMAND CENTER</p>
+                        <p class="text-xs text-gray-400">ID: command001 / Code: charlie789</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="mt-8 text-center">
+                <p class="text-xs text-gray-500">
+                    Tactical Operations System v2.0.1 | Secure Connection Established
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Toggle password visibility
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('accessCode');
+            const icon = this.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.setAttribute('data-lucide', 'eye-off');
+            } else {
+                passwordInput.type = 'password';
+                icon.setAttribute('data-lucide', 'eye');
+            }
+            lucide.createIcons();
+        });
+
+        // Handle login form submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const personnelId = document.getElementById('personnelId').value;
+            const accessCode = document.getElementById('accessCode').value;
+            const securityLevel = document.getElementById('securityLevel').value;
+            const errorMessage = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            
+            // Hide previous errors
+            errorMessage.classList.add('hidden');
+            
+            // Demo authentication logic
+            const validCredentials = {
+                'field001': { code: 'alpha123', level: 'field', name: 'Field Operator Alpha' },
+                'squad001': { code: 'bravo456', level: 'squad', name: 'Squad Leader Bravo' },
+                'command001': { code: 'charlie789', level: 'command', name: 'Command Center Charlie' }
+            };
+            
+            const credential = validCredentials[personnelId];
+            
+            if (credential && credential.code === accessCode) {
+                // Success - redirect to dashboard
+                localStorage.setItem('currentUser', JSON.stringify({
+                    id: personnelId,
+                    name: credential.name,
+                    level: securityLevel,
+                    role: credential.level
+                }));
+                
+                // Show success message
+                const successDiv = document.createElement('div');
+                successDiv.className = 'fixed inset-0 bg-green-900/95 backdrop-blur-lg z-50 flex items-center justify-center';
+                successDiv.innerHTML = `
+                    <div class="glassmorphism rounded-xl p-8 max-w-sm mx-4">
+                        <div class="flex flex-col items-center text-center">
+                            <div class="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mb-4">
+                                <i data-lucide="check-circle" class="w-8 h-8 text-green-400"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold military-text mb-2">Access Granted</h3>
+                            <p class="text-gray-400 mb-4">Welcome, ${credential.name}</p>
+                            <div class="text-sm text-gray-500 mb-4">
+                                <p>Security Level: ${securityLevel.toUpperCase()}</p>
+                                <p>Credentials Verified</p>
+                            </div>
+                            <button onclick="proceedToDashboard()" class="tactical-button rounded-lg px-6 py-2 text-sm font-medium">
+                                Enter Command Center
+                            </button>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(successDiv);
+                lucide.createIcons();
+                
+            } else {
+                // Error - show error message
+                errorText.textContent = 'Invalid credentials. Access denied.';
+                errorMessage.classList.remove('hidden');
+                
+                // Shake animation
+                const form = document.getElementById('loginForm');
+                form.classList.add('animate-shake');
+                setTimeout(() => {
+                    form.classList.remove('animate-shake');
+                }, 500);
+            }
+        });
+
+        // Proceed to dashboard
+        function proceedToDashboard() {
+            window.location.href = '/index.html';
+        }
+
+        // Check system status on load
+        window.addEventListener('load', function() {
+            // Simulate system checks
+            setTimeout(() => {
+                console.log('Tactical Operations System initialized');
+                console.log('Security protocols active');
+                console.log('Network connection secure');
+            }, 1000);
+        });
+
+        // Add shake animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-5px); }
+                75% { transform: translateX(5px); }
+            }
+            .animate-shake {
+                animation: shake 0.3s ease-in-out;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
