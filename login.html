@@ -25,7 +25,7 @@
         }
 
         .military-gradient {
-            background: linear-gradient(135deg, #2d1810 0%, #3e2723 25%, #1b5e20 50%, #33691e 75%, #263238 100%);
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d1810 25%, #1b4332 50%, #263238 75%, #1a1a1a 100%);
         }
 
         .camouflage-pattern {
@@ -34,43 +34,80 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-image:
-                radial-gradient(circle at 20% 80%, #2e7d32 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, #1b5e20 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, #3e2723 0%, transparent 50%),
-                linear-gradient(45deg, #1b4332 25%, #2d1810 25%, #2d1810 50%, #1b4332 50%, #1b4332 75%, #2d1810 75%);
-            background-size: 200px 200px, 200px 200px, 100px 100px, 100px 100px;
-            background-position: 0 0, 100px 0, 0 0, 50px 50px;
-            opacity: 0.3;
+            background:
+                linear-gradient(45deg, #1a1a1a 25%, #2d1810 25%, #2d1810 50%, #1a1a1a 50%, #1a1a1a 75%, #2d1810 75%),
+                linear-gradient(-45deg, #1b4332 25%, #263238 25%, #263238 50%, #1b4332 50%, #1b4332 75%, #263238 75%),
+                radial-gradient(circle at 25% 25%, #2e7d32 0%, transparent 30%),
+                radial-gradient(circle at 75% 75%, #3e2723 0%, transparent 30%);
+            background-size: 100px 100px, 100px 100px, 200px 200px, 200px 200px;
+            background-position: 0 0, 50px 50px, 0 0, 100px 100px;
+            opacity: 0.8;
         }
 
         .glassmorphism {
-            background: rgba(255, 255, 255, 0.05);
-            -webkit-backdrop-filter: blur(10px);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            background: rgba(26, 26, 26, 0.85);
+            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(76, 175, 80, 0.2);
         }
 
         .glassmorphism-hover:hover {
-            background: rgba(255, 255, 255, 0.08);
-            -webkit-backdrop-filter: blur(12px);
-            backdrop-filter: blur(12px);
+            background: rgba(26, 26, 26, 0.95);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(76, 175, 80, 0.3);
+            border-color: rgba(76, 175, 80, 0.5);
         }
 
         .military-text {
             color: #4caf50;
-            text-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+            text-shadow: 0 0 15px rgba(76, 175, 80, 0.6);
         }
 
         .military-accent {
             color: #8bc34a;
+            text-shadow: 0 0 8px rgba(139, 195, 74, 0.4);
         }
 
         .tactical-font {
             font-family: 'Russo One', cursive;
+        }
+
+        .form-input {
+            background: rgba(26, 26, 26, 0.7) !important;
+            border: 1px solid rgba(76, 175, 80, 0.4) !important;
+            color: #ffffff !important;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-input:focus {
+            border-color: #4caf50 !important;
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.3) !important;
+            background: rgba(26, 26, 26, 0.9) !important;
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.6) !important;
+        }
+
+        .form-select {
+            background: rgba(26, 26, 26, 0.7) !important;
+            border: 1px solid rgba(76, 175, 80, 0.4) !important;
+            color: #ffffff !important;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-select:focus {
+            border-color: #4caf50 !important;
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.3) !important;
+            background: rgba(26, 26, 26, 0.9) !important;
+        }
+
+        .form-select option {
+            background: #1a1a1a !important;
+            color: #ffffff !important;
         }
 
         .animate-pulse-slow {
@@ -161,7 +198,7 @@
                     <label for="securityLevel" class="block text-sm font-medium military-accent mb-2">Security
                         Clearance</label>
                     <select id="securityLevel" name="securityLevel" required
-                        class="w-full px-4 py-3 bg-green-900/30 border border-green-500/50 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-400 focus:ring-2 focus:ring-green-400/50 transition-colors">
+                        class="w-full px-4 py-3 form-select rounded-lg transition-colors">
                         <option value="">Select clearance level</option>
                         <option value="field">Field Operator</option>
                         <option value="squad">Squad Leader</option>
@@ -174,7 +211,7 @@
                     <label for="personnelId" class="block text-sm font-medium military-accent mb-2">Personnel ID</label>
                     <div class="relative">
                         <input id="personnelId" name="personnelId" type="text" required
-                            class="w-full px-4 py-3 bg-green-900/30 border border-green-500/50 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-400 focus:ring-2 focus:ring-green-400/50 transition-colors"
+                            class="w-full px-4 py-3 form-input rounded-lg transition-colors"
                             placeholder="Enter personnel ID" />
                         <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
                             <i data-lucide="user" class="w-5 h-5 text-gray-400"></i>
@@ -187,7 +224,7 @@
                     <label for="accessCode" class="block text-sm font-medium military-accent mb-2">Access Code</label>
                     <div class="relative">
                         <input id="accessCode" name="accessCode" type="password" required
-                            class="w-full px-4 py-3 bg-green-900/30 border border-green-500/50 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-400 focus:ring-2 focus:ring-green-400/50 transition-colors"
+                            class="w-full px-4 py-3 form-input rounded-lg transition-colors"
                             placeholder="Enter access code" />
                         <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
                             <button type="button" id="togglePassword" class="text-gray-400 hover:text-green-400"
