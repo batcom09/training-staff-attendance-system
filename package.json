@@ -1,26 +1,44 @@
 {
-  "name": "training-attendance-system",
-  "version": "1.0.0",
-  "description": "Training Staff Attendance Management System MVP",
-  "main": "index.js",
+  "name": "military-training-system",
+  "version": "2.0.1",
+  "description": "Military Training Staff Attendance Management System",
+  "main": "server.js",
   "scripts": {
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "cd backend && npm run dev",
-    "client": "cd frontend && npm start",
+    "start": "node server.js",
+    "dev": "node server.js",
+    "pinger": "node pinger.js",
+    "health": "curl http://localhost:3000/health",
+    "test": "echo 'No tests specified' && exit 0",
     "install-all": "npm install && cd backend && npm install && cd ../frontend && npm install",
-    "build": "cd frontend && npm run build",
-    "start": "cd backend && npm start",
-    "pinger": "node pinger.js"
+    "build": "echo 'Static build - no compilation required'",
+    "deploy": "echo 'Deploy to Render via render.yaml configuration'"
   },
   "keywords": [
-    "attendance",
+    "military",
     "training",
+    "attendance",
     "management",
-    "system"
+    "system",
+    "tactical",
+    "operations"
   ],
-  "author": "",
+  "author": "Military Operations Team",
   "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/batcom09/training-staff-attendance-system.git"
+  },
+  "homepage": "https://github.com/batcom09/training-staff-attendance-system#readme",
   "devDependencies": {
     "concurrently": "^8.2.2"
+  },
+  "dependencies": {},
+  "render": {
+    "service": "military-training-system",
+    "type": "web",
+    "plan": "free"
   }
 }

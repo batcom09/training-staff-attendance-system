@@ -1,0 +1,18 @@
+# Render Deployment Configuration
+services:
+  # Main web service
+  - type: web
+    name: military-training-system
+    runtime: node
+    plan: free
+    buildCommand: "echo 'No build required - static files served by Node.js'"
+    startCommand: "node server.js"
+    healthCheckPath: /health
+    autoDeploy: true
+
+    # Environment variables
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
