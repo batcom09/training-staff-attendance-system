@@ -15,7 +15,29 @@
             backdrop-filter: blur(20px);
             display: flex;
             flex-direction: column;
-            transition: all 0.3s ease;
+            transition: width 0.3s ease;
+        }
+
+        .sidebar.collapsed {
+            width: 80px;
+        }
+
+        .sidebar.collapsed .sidebar-text {
+            display: none !important;
+        }
+
+        .sidebar.collapsed .nav-item {
+            justify-content: center;
+            padding: 12px;
+        }
+
+        .sidebar.collapsed .logo-header {
+            padding: 28px 0;
+            justify-content: center;
+        }
+
+        .sidebar.collapsed #sidebarToggleBtn {
+            transform: rotate(180deg);
         }
 
         .nav-item {
@@ -134,37 +156,40 @@
     <div class="bg-pattern" style="z-index: -2;"></div>
     
     <!-- Sidebar -->
-    <aside class="sidebar relative">
-        <div style="padding: 28px 24px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid var(--glass-border);">
-            <div style="width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, var(--primary), #1b5e20); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(76,175,80,0.3);">
+    <aside class="sidebar relative" id="sidebar">
+        <div class="logo-header" style="padding: 28px 24px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid var(--glass-border); position: relative; transition: all 0.3s;">
+            <div style="width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, var(--primary), #1b5e20); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(76,175,80,0.3); flex-shrink: 0;">
                 <i data-lucide="shield" style="width: 20px; height: 20px; color: white;"></i>
             </div>
-            <span class="tactical-font text-gradient" style="font-size: 1.25rem;">Tactical Ops</span>
+            <span class="tactical-font text-gradient sidebar-text" style="font-size: 1.25rem;">Tactical Ops</span>
+            <button id="sidebarToggleBtn" style="position: absolute; right: -12px; top: 34px; width: 24px; height: 24px; border-radius: 50%; background: var(--bg-dark); border: 1px solid var(--primary); color: var(--primary); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; padding: 0; transition: transform 0.3s ease; box-shadow: 0 0 10px rgba(76,175,80,0.2);">
+                <i data-lucide="chevron-left" style="width: 14px; height: 14px;"></i>
+            </button>
         </div>
         
         <nav style="padding: 24px 16px; flex: 1; overflow-y: auto;">
-            <div class="nav-item active" data-view="dashboard">
-                <i data-lucide="layout-dashboard" style="width: 20px; height: 20px;"></i>
-                Command Center
+            <div class="nav-item active" data-view="dashboard" title="Command Center">
+                <i data-lucide="layout-dashboard" style="width: 20px; height: 20px; flex-shrink: 0;"></i>
+                <span class="sidebar-text">Command Center</span>
             </div>
-            <div class="nav-item" data-view="attendance">
-                <i data-lucide="clipboard-check" style="width: 20px; height: 20px;"></i>
-                Attendance Log
+            <div class="nav-item" data-view="attendance" title="Attendance Log">
+                <i data-lucide="clipboard-check" style="width: 20px; height: 20px; flex-shrink: 0;"></i>
+                <span class="sidebar-text">Attendance Log</span>
             </div>
-            <div class="nav-item" data-view="training">
-                <i data-lucide="target" style="width: 20px; height: 20px;"></i>
-                Training Ops
+            <div class="nav-item" data-view="training" title="Training Ops">
+                <i data-lucide="target" style="width: 20px; height: 20px; flex-shrink: 0;"></i>
+                <span class="sidebar-text">Training Ops</span>
             </div>
-            <div class="nav-item" data-view="settings">
-                <i data-lucide="users" style="width: 20px; height: 20px;"></i>
-                Squad Management
+            <div class="nav-item" data-view="settings" title="Squad Management">
+                <i data-lucide="users" style="width: 20px; height: 20px; flex-shrink: 0;"></i>
+                <span class="sidebar-text">Squad Management</span>
             </div>
         </nav>
         
         <div style="padding: 24px 16px; border-top: 1px solid var(--glass-border);">
-            <button id="logoutBtn" class="nav-item" style="width: 100%; justify-content: flex-start; background: transparent; color: var(--danger); border: 1px solid rgba(244, 67, 54, 0.2);">
-                <i data-lucide="log-out" style="width: 20px; height: 20px;"></i>
-                Disconnect
+            <button id="logoutBtn" class="nav-item" style="width: 100%; justify-content: flex-start; background: transparent; color: var(--danger); border: 1px solid rgba(244, 67, 54, 0.2);" title="Disconnect">
+                <i data-lucide="log-out" style="width: 20px; height: 20px; flex-shrink: 0;"></i>
+                <span class="sidebar-text">Disconnect</span>
             </button>
         </div>
     </aside>
