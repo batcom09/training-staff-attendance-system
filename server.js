@@ -60,7 +60,7 @@ app.get('/api/attendance', (req, res) => {
 });
 
 // Fallback routing for SPA
-app.get('*', (req, res) => {
+app.use((req, res, next) => {
   if (req.path === '/' || req.path === '/index.html') {
       res.sendFile(path.join(__dirname, 'index.html'));
   } else if (req.path === '/login' || req.path === '/login.html') {
