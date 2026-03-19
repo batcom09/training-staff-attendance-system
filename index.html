@@ -333,9 +333,38 @@
 
             <!-- Settings / Squad view -->
             <div id="view-settings" class="view-section" style="display: none;">
-                <div class="glass-panel" style="padding: 32px;">
-                    <h3 style="margin: 0 0 24px 0; font-size: 1.5rem; font-weight: 600;">Squad Management</h3>
-                    <p class="text-muted">Manage operational teams, security clearances, and command designations.</p>
+                <div class="glass-panel" style="padding: 32px; display: flex; flex-direction: column; gap: 24px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                        <div>
+                            <h3 style="margin: 0 0 8px 0; font-size: 1.5rem; font-weight: 600;">Squad Management</h3>
+                            <p class="text-muted" style="margin: 0;">Manage operational teams, security clearances, and command designations.</p>
+                        </div>
+                        <button class="btn-primary" style="width: auto; padding: 10px 20px;" id="showAddUserModalBtn">
+                            <i data-lucide="user-plus" style="width: 18px; height: 18px;"></i> Add Personnel
+                        </button>
+                    </div>
+
+                    <div id="adminWarning" style="display: none; padding: 16px; background: rgba(244, 67, 54, 0.1); border: 1px solid rgba(244, 67, 54, 0.3); border-radius: 8px; color: var(--danger);">
+                        <i data-lucide="alert-triangle" style="display: inline-block; vertical-align: middle; margin-right: 8px;"></i> Access Denied. System Admin clearance required for Squad Management.
+                    </div>
+
+                    <div id="squadManagementContent" style="display: none;">
+                        <div style="overflow-x: auto;">
+                            <table style="width: 100%; border-collapse: collapse; text-align: left; min-width: 600px;">
+                                <thead>
+                                    <tr style="border-bottom: 1px solid var(--glass-border);">
+                                        <th style="padding: 12px; color: var(--text-muted); font-weight: 500;">Personnel ID</th>
+                                        <th style="padding: 12px; color: var(--text-muted); font-weight: 500;">Name</th>
+                                        <th style="padding: 12px; color: var(--text-muted); font-weight: 500;">Clearance</th>
+                                        <th style="padding: 12px; color: var(--text-muted); font-weight: 500; text-align: right;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="usersTableBody">
+                                    <!-- Users rendered here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -358,6 +387,43 @@
                     @keyframes scanAnim { 0%, 100% { top: 5%; } 50% { top: 95%; } }
                 </style>
             </div>
+        </div>
+    </div>
+
+    <!-- Add User Modal -->
+    <div class="modal-overlay" id="addUserModal">
+        <div class="glass-panel" style="width: 100%; max-width: 500px; padding: 32px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 24px;">
+                <h3 style="margin: 0; font-size: 1.25rem;">Register New Personnel</h3>
+                <button id="closeAddUserBtn" style="background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 4px;"><i data-lucide="x"></i></button>
+            </div>
+            <form id="addUserForm" style="display: flex; flex-direction: column; gap: 16px;">
+                <div class="error-text" id="addUserError" style="margin-top:0;"></div>
+                <div>
+                    <label class="input-label">Name</label>
+                    <input type="text" id="newUserName" class="input-field" required>
+                </div>
+                <div>
+                    <label class="input-label">Personnel ID</label>
+                    <input type="text" id="newUserPersonnelId" class="input-field" required>
+                </div>
+                <div>
+                    <label class="input-label">Access Code</label>
+                    <input type="password" id="newUserCode" class="input-field" required>
+                </div>
+                <div>
+                    <label class="input-label">Security Clearance</label>
+                    <select id="newUserLevel" class="input-field" required style="background-color: rgba(0,0,0,0.4);">
+                        <option value="field">Field Operator</option>
+                        <option value="squad">Squad Leader</option>
+                        <option value="command">Command Center</option>
+                        <option value="admin">System Admin</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary" style="margin-top: 8px;">
+                    <i data-lucide="check" style="width: 18px; height: 18px;"></i> Confirm Registration
+                </button>
+            </form>
         </div>
     </div>
 

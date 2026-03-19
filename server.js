@@ -31,14 +31,14 @@ app.get(['/keep-alive', '/ping'], (req, res) => {
 });
 
 // Mock Database
-const users = [
+let users = [
   { id: 'field001', code: 'alpha123', level: 'field', name: 'Field Operator' },
   { id: 'squad001', code: 'bravo456', level: 'squad', name: 'Squad Leader' },
   { id: 'command001', code: 'charlie789', level: 'command', name: 'Command Center' },
   { id: 'admin', code: 'admin', level: 'admin', name: 'System Admin' }
 ];
 
-const attendanceLogs = [
+let attendanceLogs = [
   { id: 1, user: 'Jane Smith', action: 'Completed Training', time: '15 min ago', status: 'info' },
   { id: 2, user: 'John Doe', action: 'Checked in', time: '2 min ago', status: 'success' }
 ];
@@ -57,6 +57,28 @@ app.post('/api/login', (req, res) => {
 
 app.get('/api/attendance', (req, res) => {
   res.json({ success: true, logs: attendanceLogs });
+});
+
+// User Management Endpoints
+app.get('/api/users', (req, res) => {
+  res.json({ success: true, users });
+});
+
+app.post('/api/users', (req, res) => {
+  const { id, code, level, name } = req.body;
+  if (!id || !code || !level || !name) {
+    return res.status(400).json({ success: false, message: 'Missing fields' });
+  }
+  if (users.find(u => u.id === id)) {
+    return res.status(400).json({ success: false, message: 'User already exists' });
+  }
+  users.push({ id, code, level, name });
+  res.json({ success: true, user: { id, code, level, name } });
+});
+
+app.delete('/api/users/:id', (req, res) => {
+  users = users.filter(u => u.id !== req.params.id);
+  res.json({ success: true, message: 'User deleted' });
 });
 
 // Fallback routing for SPA

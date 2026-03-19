@@ -109,11 +109,120 @@ document.addEventListener('DOMContentLoaded', () => {
                     view.style.opacity = '0';
                     setTimeout(() => view.style.opacity = '1', 10);
                     view.style.transition = 'opacity 0.3s ease';
+                    
+                    if(item.dataset.view === 'settings') {
+                        loadUsers();
+                    }
                 } else {
                     view.style.display = 'none';
                 }
             });
         });
+    });
+
+    // User Management Logic
+    const loadUsers = async () => {
+        if (user.level !== 'admin') {
+            document.getElementById('adminWarning').style.display = 'block';
+            document.getElementById('showAddUserModalBtn').style.display = 'none';
+            document.getElementById('squadManagementContent').style.display = 'none';
+            return;
+        }
+
+        document.getElementById('adminWarning').style.display = 'none';
+        document.getElementById('showAddUserModalBtn').style.display = 'inline-flex';
+        document.getElementById('squadManagementContent').style.display = 'block';
+
+        try {
+            const response = await fetch('/api/users');
+            const data = await response.json();
+            if (data.success) {
+                renderUsersTable(data.users);
+            }
+        } catch (error) {
+            console.error('Error loading users:', error);
+        }
+    };
+
+    const renderUsersTable = (usersData) => {
+        const tbody = document.getElementById('usersTableBody');
+        tbody.innerHTML = usersData.map(u => `
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05); transition: background 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                <td style="padding: 16px 12px; font-family: monospace;">${u.id}</td>
+                <td style="padding: 16px 12px; font-weight: 500;">${u.name}</td>
+                <td style="padding: 16px 12px;">
+                    <span style="padding: 4px 8px; background: rgba(76,175,80,0.1); border: 1px solid rgba(76,175,80,0.3); border-radius: 4px; font-size: 0.75rem; color: var(--accent); text-transform: uppercase;">
+                        ${u.level}
+                    </span>
+                </td>
+                <td style="padding: 16px 12px; text-align: right;">
+                    <button class="delete-user-btn" data-id="${u.id}" ${u.id === user.id ? 'disabled title="Cannot delete self"' : 'title="Revoke Access"'} style="background: none; border: none; color: ${u.id === user.id ? 'var(--text-muted)' : 'var(--danger)'}; cursor: ${u.id === user.id ? 'not-allowed' : 'pointer'}; padding: 6px; border-radius: 6px; transition: background 0.2s;">
+                        <i data-lucide="trash-2" style="width: 18px; height: 18px;"></i>
+                    </button>
+                </td>
+            </tr>
+        `).join('');
+        lucide.createIcons();
+
+        document.querySelectorAll('.delete-user-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                const id = e.currentTarget.dataset.id;
+                if(confirm(`Are you sure you want to revoke access for ${id}?`)) {
+                    try {
+                        const res = await fetch(`/api/users/${id}`, { method: 'DELETE' });
+                        if(res.ok) loadUsers();
+                    } catch(err) {
+                        console.error('Error deleting user', err);
+                    }
+                }
+            });
+        });
+    };
+
+    // Add user modal handlers
+    const addUserModal = document.getElementById('addUserModal');
+    const addUserError = document.getElementById('addUserError');
+    document.getElementById('showAddUserModalBtn').addEventListener('click', () => {
+        addUserModal.classList.add('active');
+        addUserError.classList.remove('visible');
+    });
+    document.getElementById('closeAddUserBtn').addEventListener('click', () => {
+        addUserModal.classList.remove('active');
+    });
+    addUserModal.addEventListener('click', (e) => {
+        if (e.target === addUserModal) addUserModal.classList.remove('active');
+    });
+    
+    document.getElementById('addUserForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        addUserError.classList.remove('visible');
+        const payload = {
+            name: document.getElementById('newUserName').value,
+            id: document.getElementById('newUserPersonnelId').value,
+            code: document.getElementById('newUserCode').value,
+            level: document.getElementById('newUserLevel').value
+        };
+
+        try {
+            const res = await fetch('/api/users', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+            if (data.success) {
+                addUserModal.classList.remove('active');
+                e.target.reset();
+                loadUsers();
+            } else {
+                addUserError.textContent = data.message || 'Registration failed.';
+                addUserError.classList.add('visible');
+            }
+        } catch (error) {
+            console.error('Error adding user', error);
+            addUserError.textContent = 'Server connection error.';
+            addUserError.classList.add('visible');
+        }
     });
 
     // Initial load
