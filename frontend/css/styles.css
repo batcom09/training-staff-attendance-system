@@ -41,6 +41,7 @@ body {
 .text-gradient {
     background: linear-gradient(to right, var(--primary), var(--accent));
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -168,4 +169,17 @@ body {
 }
 .error-text.visible {
     display: block;
+}
+
+/* Mobile Responsive Overrides */
+@media (max-width: 768px) {
+    .p-8 { padding: 1.5rem; }
+    .max-w-md { max-width: 100%; margin: 0 1rem; }
+    .min-h-screen { padding-left: 1rem; padding-right: 1rem; }
+}
+
+@media (max-width: 480px) {
+    .p-8 { padding: 1rem; }
+    .glass-panel { padding: 1.5rem !important; }
+    .btn-primary { padding: 12px 20px; font-size: 0.875rem; }
 }
