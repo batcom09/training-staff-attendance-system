@@ -174,10 +174,82 @@ ALTER TABLE notifications ENABLE ROW LEVEL SECURITY;
 
 -- RLS Policies (basic examples - adjust based on actual security requirements)
 CREATE POLICY attendance_records_policy ON attendance_records
-    FOR ALL TO authenticated_users
+    FOR ALL TO authenticated
     USING (
-        trainee_id = current_user_id() OR 
-        EXISTS (SELECT 1 FROM users WHERE id = current_user_id() AND role IN ('admin', 'supervisor'))
+        trainee_id = (SELECT id FROM users WHERE email = current_user::text) OR 
+        EXISTS (SELECT 1 FROM users WHERE email = current_user::text AND role IN ('admin', 'supervisor'))
+    );
+
+-- Reference table for Genders
+CREATE TABLE ref_genders (
+    code VARCHAR(20) PRIMARY KEY,
+    label VARCHAR(50) NOT NULL,
+    sort_order INTEGER NOT NULL
+);
+
+-- Reference table for Nationalities
+CREATE TABLE ref_nationalities (
+    code VARCHAR(50) PRIMARY KEY,
+    label VARCHAR(100) NOT NULL,
+    requires_other BOOLEAN DEFAULT FALSE,
+    sort_order INTEGER NOT NULL
+);
+
+-- Reference table for Philippine Army ranks
+CREATE TABLE ref_philippine_army_ranks (
+    rank_code VARCHAR(10) PRIMARY KEY,
+    rank_name VARCHAR(100) NOT NULL,
+    rank_category VARCHAR(20) CHECK (rank_category IN ('commissioned_officer', 'enlisted_personnel')),
+    grade VARCHAR(10) NOT NULL,
+    display_order INTEGER NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Profiles table
+CREATE TABLE profiles (
+    user_id UUID PRIMARY KEY REFERENCES users(id),
+    
+    -- Personal Information
+    full_name VARCHAR(100) NOT NULL,
+    address TEXT NOT NULL,
+    phone_number VARCHAR(20) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    birthdate DATE NOT NULL,
+    afpsn VARCHAR(50) NOT NULL,
+    age INTEGER CHECK (age BETWEEN 18 AND 65),
+    
+    -- Dropdown Fields
+    gender VARCHAR(20) CHECK (gender IN ('male', 'female', 'other', 'prefer_not_to_say')),
+    nationality VARCHAR(50),
+    nationality_other VARCHAR(50),
+    
+    -- Philippine Army Rank (Foreign Key)
+    pa_rank_code VARCHAR(10) REFERENCES ref_philippine_army_ranks(rank_code),
+    
+    -- Additional fields
+    other_background TEXT,
+    profile_completed BOOLEAN DEFAULT FALSE,
+    completed_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Indexes for profiles
+CREATE INDEX idx_pa_rank ON profiles(pa_rank_code);
+CREATE INDEX idx_afpsn ON profiles(afpsn);
+
+-- Trigger for profiles updated_at
+CREATE TRIGGER update_profiles_updated_at BEFORE UPDATE ON profiles
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- Row Level Security for profiles
+ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY profiles_policy ON profiles
+    FOR ALL TO authenticated
+    USING (
+        user_id = (SELECT id FROM users WHERE email = current_user::text) OR 
+        EXISTS (SELECT 1 FROM users WHERE email = current_user::text AND role IN ('admin', 'supervisor'))
     );
 
 -- Views for common queries

@@ -4,9 +4,11 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const { createServer } = require('http');
 const { Server } = require('socket.io');
+const path = require('path');
 require('dotenv').config();
 
 const authRoutes = require('./routes/auth');
+const onboardingRoutes = require('./routes/onboarding');
 const userRoutes = require('./routes/users');
 const attendanceRoutes = require('./routes/attendance');
 const trainingRoutes = require('./routes/training');
@@ -27,7 +29,15 @@ const io = new Server(server, {
 });
 
 // Middleware
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+            "script-src": ["'self'", "'unsafe-inline'", "https://unpkg.com"],
+            "img-src": ["'self'", "data:", "https://*"],
+        },
+    },
+}));
 app.use(cors({
     origin: process.env.FRONTEND_URL || "http://localhost:3000",
     credentials: true
@@ -45,6 +55,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // Request logging
 app.use(logRequest);
+
+// Serve static frontend files from root
+app.use(express.static(path.join(__dirname, '../')));
 
 // Socket.IO connection handling
 io.on('connection', (socket) => {
@@ -74,6 +87,7 @@ app.get('/health', (req, res) => {
 
 // API Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/onboarding', onboardingRoutes);
 app.use('/api/users', authenticateToken, userRoutes);
 app.use('/api/attendance', authenticateToken, attendanceRoutes);
 app.use('/api/training', authenticateToken, trainingRoutes);

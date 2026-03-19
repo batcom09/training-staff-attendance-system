@@ -189,7 +189,7 @@
             <div style="width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, var(--primary), #1b5e20); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(76,175,80,0.3); flex-shrink: 0;">
                 <i data-lucide="shield" style="width: 20px; height: 20px; color: white;"></i>
             </div>
-            <span class="tactical-font text-gradient sidebar-text" style="font-size: 1.25rem;">Tactical Ops</span>
+            <span class="tactical-font text-gradient sidebar-text" style="font-size: 1.25rem;">Staff System</span>
             <button id="sidebarToggleBtn" style="position: absolute; right: -12px; top: 34px; width: 24px; height: 24px; border-radius: 50%; background: var(--bg-dark); border: 1px solid var(--primary); color: var(--primary); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; padding: 0; transition: transform 0.3s ease; box-shadow: 0 0 10px rgba(76,175,80,0.2);">
                 <i data-lucide="chevron-left" style="width: 14px; height: 14px;"></i>
             </button>
@@ -198,15 +198,15 @@
         <nav style="padding: 24px 16px; flex: 1; overflow-y: auto;">
             <div class="nav-item active" data-view="dashboard" title="Command Center">
                 <i data-lucide="layout-dashboard" style="width: 20px; height: 20px; flex-shrink: 0;"></i>
-                <span class="sidebar-text">Command Center</span>
+                <span class="sidebar-text">Dashboard</span>
             </div>
             <div class="nav-item" data-view="attendance" title="Attendance Log">
                 <i data-lucide="clipboard-check" style="width: 20px; height: 20px; flex-shrink: 0;"></i>
-                <span class="sidebar-text">Attendance Log</span>
+                <span class="sidebar-text">Attendance</span>
             </div>
             <div class="nav-item" data-view="training" title="Training Ops">
                 <i data-lucide="target" style="width: 20px; height: 20px; flex-shrink: 0;"></i>
-                <span class="sidebar-text">Training Ops</span>
+                <span class="sidebar-text">Training</span>
             </div>
             <div class="nav-item" data-view="messages" title="Secure Messages">
                 <i data-lucide="message-square" style="width: 20px; height: 20px; flex-shrink: 0;"></i>
@@ -218,14 +218,14 @@
             </div>
             <div class="nav-item" data-view="settings" title="Squad Management">
                 <i data-lucide="users" style="width: 20px; height: 20px; flex-shrink: 0;"></i>
-                <span class="sidebar-text">Squad Management</span>
+                <span class="sidebar-text">User Management</span>
             </div>
         </nav>
         
         <div style="padding: 24px 16px; border-top: 1px solid var(--glass-border);">
             <button id="logoutBtn" class="nav-item" style="width: 100%; justify-content: flex-start; background: transparent; color: var(--danger); border: 1px solid rgba(244, 67, 54, 0.2);" title="Disconnect">
                 <i data-lucide="log-out" style="width: 20px; height: 20px; flex-shrink: 0;"></i>
-                <span class="sidebar-text">Disconnect</span>
+                <span class="sidebar-text">Log Out</span>
             </button>
         </div>
     </aside>
@@ -235,16 +235,16 @@
         <!-- Top Bar -->
         <header class="top-bar">
             <div>
-                <h2 style="margin: 0; font-size: 1.25rem; font-weight: 600;" id="pageTitle">Command Center</h2>
+                <h2 style="margin: 0; font-size: 1.25rem; font-weight: 600;" id="pageTitle">Dashboard</h2>
             </div>
             <div style="display: flex; align-items: center; gap: 24px;">
                 <button class="btn-primary" id="scanBtn" style="padding: 10px 20px; font-size: 0.875rem;">
-                    <i data-lucide="scan" style="width: 18px; height: 18px;"></i> Broadcast Uplink
+                    <i data-lucide="scan" style="width: 18px; height: 18px;"></i> Sync Data
                 </button>
                 <div style="display: flex; align-items: center; gap: 16px; border-left: 1px solid var(--glass-border); padding-left: 24px;">
                     <div style="text-align: right;">
-                        <div style="font-weight: 600; font-size: 0.875rem;" id="userName">Auth Pending</div>
-                        <div style="color: var(--primary); font-size: 0.75rem; text-transform: uppercase;" id="userLevel">System Wait</div>
+                        <div style="font-weight: 600; font-size: 0.875rem;" id="userName">Status Pending</div>
+                        <div style="color: var(--primary); font-size: 0.75rem; text-transform: uppercase;" id="userLevel">Please Wait</div>
                     </div>
                     <div style="width: 44px; height: 44px; border-radius: 50%; background: rgba(76,175,80,0.1); border: 1px solid var(--primary); display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 10px rgba(76,175,80,0.2);">
                         <i data-lucide="user" style="color: var(--primary);"></i>
@@ -260,7 +260,7 @@
                 <div class="dashboard-grid">
                 <div class="glass-panel stat-card">
                     <div style="display: flex; align-items: center; justify-content: space-between;">
-                        <span class="text-muted" style="font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Active Personnel</span>
+                        <span class="text-muted" style="font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Active Users</span>
                         <div style="background: rgba(76, 175, 80, 0.15); border: 1px solid rgba(76,175,80,0.3); padding: 10px; border-radius: 10px;">
                             <i data-lucide="users" style="color: var(--primary);"></i>
                         </div>
@@ -274,7 +274,7 @@
                 
                 <div class="glass-panel stat-card">
                     <div style="display: flex; align-items: center; justify-content: space-between;">
-                        <span class="text-muted" style="font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Today's Operations</span>
+                        <span class="text-muted" style="font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Today's Activities</span>
                         <div style="background: rgba(139, 195, 74, 0.15); border: 1px solid rgba(139,195,74,0.3); padding: 10px; border-radius: 10px;">
                             <i data-lucide="clipboard-check" style="color: var(--accent);"></i>
                         </div>
@@ -288,18 +288,18 @@
                 
                 <div class="glass-panel stat-card">
                     <div style="display: flex; align-items: center; justify-content: space-between;">
-                        <span class="text-muted" style="font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">System Core</span>
+                        <span class="text-muted" style="font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">System Status</span>
                         <div class="pulse-dot"></div>
                     </div>
                     <div class="stat-value text-gradient" style="font-size: 2rem; -webkit-text-fill-color: transparent;">ONLINE</div>
-                    <div class="text-muted" style="font-size: 0.875rem; margin-top: auto;">All sub-nodes connected</div>
+                    <div class="text-muted" style="font-size: 0.875rem; margin-top: auto;">All systems operational</div>
                 </div>
             </div>
 
             <div class="content-grid" style="display: grid; grid-template-columns: 2fr 1fr; gap: 32px;">
                 <div class="glass-panel" style="display: flex; flex-direction: column;">
                     <div style="padding: 24px 32px; border-bottom: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: space-between;">
-                        <h3 style="margin: 0; font-size: 1.125rem; font-weight: 600;">Live Event Log</h3>
+                        <h3 style="margin: 0; font-size: 1.125rem; font-weight: 600;">Latest Activities</h3>
                     </div>
                     <div class="activity-feed" id="activityFeed">
                         <!-- Loaded dynamically -->
@@ -310,13 +310,13 @@
                     <h3 style="margin: 0 0 24px 0; font-size: 1.125rem; font-weight: 600;">Quick Access</h3>
                     <div style="display: flex; flex-direction: column; gap: 16px;">
                         <button class="btn-primary" style="width: 100%; justify-content: flex-start; background: rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.05); box-shadow: none;">
-                            <i data-lucide="file-text" style="color: var(--accent);"></i> Generate Intel Report
+                            <i data-lucide="file-text" style="color: var(--accent);"></i> Download Report
                         </button>
                         <button class="btn-primary" style="width: 100%; justify-content: flex-start; background: rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.05); box-shadow: none;">
-                            <i data-lucide="user-plus" style="color: var(--accent);"></i> Register Operative
+                            <i data-lucide="user-plus" style="color: var(--accent);"></i> Add New User
                         </button>
                         <button class="btn-primary" style="width: 100%; justify-content: flex-start; background: rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.05); box-shadow: none;">
-                            <i data-lucide="bell" style="color: var(--accent);"></i> Broadcast Alert
+                            <i data-lucide="bell" style="color: var(--accent);"></i> Send Notification
                         </button>
                     </div>
                 </div>
@@ -344,16 +344,16 @@
                 <div class="glass-panel" style="padding: 32px; display: flex; flex-direction: column; gap: 24px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
                         <div>
-                            <h3 style="margin: 0 0 8px 0; font-size: 1.5rem; font-weight: 600;">Squad Management</h3>
-                            <p class="text-muted" style="margin: 0;">Manage operational teams, security clearances, and command designations.</p>
+                            <h3 style="margin: 0 0 8px 0; font-size: 1.5rem; font-weight: 600;">User Management</h3>
+                            <p class="text-muted" style="margin: 0;">Manage staff accounts and permissions.</p>
                         </div>
                         <button class="btn-primary" style="width: auto; padding: 10px 20px;" id="showAddUserModalBtn">
-                            <i data-lucide="user-plus" style="width: 18px; height: 18px;"></i> Add Personnel
+                            <i data-lucide="user-plus" style="width: 18px; height: 18px;"></i> Add User
                         </button>
                     </div>
 
                     <div id="adminWarning" style="display: none; padding: 16px; background: rgba(244, 67, 54, 0.1); border: 1px solid rgba(244, 67, 54, 0.3); border-radius: 8px; color: var(--danger);">
-                        <i data-lucide="alert-triangle" style="display: inline-block; vertical-align: middle; margin-right: 8px;"></i> Access Denied. Administrator clearance required for Squad Management.
+                        <i data-lucide="alert-triangle" style="display: inline-block; vertical-align: middle; margin-right: 8px;"></i> Access Denied. Admin permissions required for User Management.
                     </div>
 
                     <div id="squadManagementContent" style="display: none;">
@@ -361,9 +361,9 @@
                             <table style="width: 100%; border-collapse: collapse; text-align: left; min-width: 600px;">
                                 <thead>
                                     <tr style="border-bottom: 1px solid var(--glass-border);">
-                                        <th style="padding: 12px; color: var(--text-muted); font-weight: 500;">Personnel ID</th>
+                                        <th style="padding: 12px; color: var(--text-muted); font-weight: 500;">User ID</th>
                                         <th style="padding: 12px; color: var(--text-muted); font-weight: 500;">Name</th>
-                                        <th style="padding: 12px; color: var(--text-muted); font-weight: 500;">Clearance</th>
+                                        <th style="padding: 12px; color: var(--text-muted); font-weight: 500;">Role</th>
                                         <th style="padding: 12px; color: var(--text-muted); font-weight: 500;">Status</th>
                                         <th style="padding: 12px; color: var(--text-muted); font-weight: 500; text-align: right;">Action</th>
                                     </tr>
@@ -382,8 +382,8 @@
                 <div class="glass-panel" style="padding: 32px; display: flex; flex-direction: column; min-height: 400px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
                         <div>
-                            <h3 style="margin: 0 0 8px 0; font-size: 1.5rem; font-weight: 600;">Secure Messages</h3>
-                            <p class="text-muted" style="margin: 0;">Command broadcasts and operational updates.</p>
+                            <h3 style="margin: 0 0 8px 0; font-size: 1.5rem; font-weight: 600;">Notifications</h3>
+                            <p class="text-muted" style="margin: 0;">System notifications and updates.</p>
                         </div>
                         <button class="btn-primary" id="broadcastMsgBtn" style="display: none; width: auto; padding: 10px 20px;">
                             <i data-lucide="mic" style="width: 18px; height: 18px;"></i> Broadcast
@@ -398,15 +398,29 @@
             <!-- Profile / QR view -->
             <div id="view-profile" class="view-section" style="display: none;">
                 <div class="glass-panel" style="padding: 32px; text-align: center;">
-                    <h3 style="margin: 0 0 24px 0; font-size: 1.5rem; font-weight: 600;">Operative Profile</h3>
+                    <h3 style="margin: 0 0 24px 0; font-size: 1.5rem; font-weight: 600;">User Profile</h3>
                     <div id="qrCodeContainer" style="background: white; padding: 16px; border-radius: 12px; display: inline-block; margin-bottom: 24px; border: 4px solid var(--primary);">
                         <img id="qrCodeImg" src="" alt="QR Code" style="display: none; width: 220px; height: 220px;" />
-                        <div id="qrLoading" style="width: 220px; height: 220px; display: flex; align-items: center; justify-content: center; color: black; font-weight: 600;">Generating Uplink...</div>
+                        <div id="qrLoading" style="width: 220px; height: 220px; display: flex; align-items: center; justify-content: center; color: black; font-weight: 600;">Generating QR Code...</div>
                     </div>
                     <div id="profileDetails" style="text-align: left; max-width: 400px; margin: 0 auto; background: rgba(0,0,0,0.5); padding: 24px; border-radius: 12px; border: 1px solid var(--glass-border);">
                         <p style="margin-top: 0;"><strong class="text-muted">Blood Type:</strong> <span id="profDisplayBlood" style="float: right; font-family: monospace;"></span></p>
                         <p><strong class="text-muted">Emergency Contact:</strong> <span id="profDisplayEmergency" style="float: right; font-family: monospace;"></span></p>
-                        <p style="margin-bottom: 0;"><strong class="text-muted">Specialization:</strong> <span id="profDisplayBackground" style="float: right; font-family: monospace;"></span></p>
+                        <p style="margin-bottom: 0;"><strong class="text-muted">Background:</strong> <span id="profDisplayBackground" style="float: right; font-family: monospace;"></span></p>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; text-align: left;">
+                                    <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px;">
+                                        <div class="text-small text-muted">Serial Number</div>
+                                        <div id="profDisplayAFPSN" style="font-weight: 600;">--</div>
+                                    </div>
+                                    <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px;">
+                                        <div class="text-small text-muted">Phone</div>
+                                        <div id="profDisplayPhone" style="font-weight: 600;">--</div>
+                                    </div>
+                                    <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; grid-column: span 2;">
+                                        <div class="text-small text-muted">Address</div>
+                                        <div id="profDisplayAddress" style="font-weight: 600; font-size: 0.85rem;">--</div>
+                                    </div>
+                                </div>
                     </div>
                 </div>
             </div>
@@ -418,7 +432,7 @@
     <div class="modal-overlay" id="scanModal">
         <div class="glass-panel" style="width: 100%; max-width: 500px; padding: 32px;">
             <div style="display: flex; justify-content: space-between; margin-bottom: 24px;">
-                <h3 style="margin: 0; font-size: 1.25rem;">Initiate Secure Scanner</h3>
+                <h3 style="margin: 0; font-size: 1.25rem;">Open Scanner</h3>
                 <button id="closeScanBtn" style="background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 4px;"><i data-lucide="x"></i></button>
             </div>
             <div style="background: black; min-height: 300px; border-radius: 12px; border: 2px solid var(--primary); display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: inset 0 0 40px rgba(76,175,80,0.3);">
@@ -432,7 +446,7 @@
     <div class="modal-overlay" id="addUserModal">
         <div class="glass-panel" style="width: 100%; max-width: 500px; padding: 32px;">
             <div style="display: flex; justify-content: space-between; margin-bottom: 24px;">
-                <h3 style="margin: 0; font-size: 1.25rem;">Register New Personnel</h3>
+                <h3 style="margin: 0; font-size: 1.25rem;">Add New User</h3>
                 <button id="closeAddUserBtn" style="background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 4px;"><i data-lucide="x"></i></button>
             </div>
             <form id="addUserForm" style="display: flex; flex-direction: column; gap: 16px;">
@@ -442,23 +456,37 @@
                     <input type="text" id="newUserName" class="input-field" required>
                 </div>
                 <div>
-                    <label class="input-label">Personnel ID</label>
+                    <label class="input-label">Serial Number</label>
                     <input type="text" id="newUserPersonnelId" class="input-field" required>
                 </div>
                 <div>
-                    <label class="input-label">Access Code</label>
-                    <input type="password" id="newUserCode" class="input-field" required>
+                    <label class="input-label">Username</label>
+                    <input type="text" id="newUserUsername" class="input-field" placeholder="e.g. jdoe" required>
                 </div>
                 <div>
-                    <label class="input-label">Security Clearance</label>
-                    <select id="newUserLevel" class="input-field" required style="background-color: rgba(0,0,0,0.4);">
-                        <option value="field">Training Staff</option>
-                        <option value="command">Commandant</option>
-                        <option value="admin">Administrator</option>
+                    <label class="input-label">Full Name</label>
+                    <input type="text" id="newUserName" class="input-field" placeholder="e.g. John Doe" required>
+                </div>
+                <div>
+                    <label class="input-label">Email Address</label>
+                    <input type="email" id="newUserEmail" class="input-field" placeholder="jdoe@tacticalops.gov" required>
+                </div>
+                <div>
+                    <label class="input-label">Role</label>
+                    <select id="newUserLevel" class="input-field">
+                        <option value="field">Staff Member</option>
+                        <option value="command">Management</option>
+                        <option value="admin" disabled>Admin</option>
                     </select>
                 </div>
-                <button type="submit" class="btn-primary" style="margin-top: 8px;">
-                    <i data-lucide="check" style="width: 18px; height: 18px;"></i> Confirm Registration
+                <div id="addUserError" class="text-danger visible" style="display: none; font-size: 0.85rem;"></div>
+                <div id="onboardingLinkContainer" style="display: none; background: rgba(76,175,80,0.1); padding: 12px; border-radius: 8px; border: 1px solid rgba(76,175,80,0.3);">
+                    <p class="text-small" style="color: var(--primary); font-weight: 600;">Account Created!</p>
+                    <p class="text-small text-muted" style="margin: 4px 0 8px 0;">Send this link to the registrant:</p>
+                    <input type="text" id="onboardingLink" class="input-field" readonly style="font-size: 0.8rem; height: 32px; background: rgba(0,0,0,0.2);">
+                </div>
+                <button type="submit" id="confirmAddBtn" class="btn-primary" style="margin-top: 8px;">
+                    <i data-lucide="check" style="width: 18px; height: 18px;"></i> Create Registration Link
                 </button>
             </form>
         </div>
@@ -468,8 +496,8 @@
     <div class="modal-overlay" id="profileModal" style="z-index: 1000;">
         <div class="glass-panel" style="width: 100%; max-width: 500px; padding: 32px;">
             <div style="margin-bottom: 24px;">
-                <h3 style="margin: 0 0 8px 0; font-size: 1.25rem;">Initialize Operative Clearance</h3>
-                <p class="text-muted" style="margin: 0; font-size: 0.875rem;">Your biological and emergency data is required to secure local clearance and generate your personal uplink QR token.</p>
+                <h3 style="margin: 0 0 8px 0; font-size: 1.25rem;">Complete Your Profile</h3>
+                <p class="text-muted" style="margin: 0; font-size: 0.875rem;">Please provide your basic information to finish setting up your account.</p>
             </div>
             <form id="profileForm" style="display: flex; flex-direction: column; gap: 16px;">
                 <div>
@@ -477,15 +505,15 @@
                     <input type="text" id="profInputBlood" class="input-field" placeholder="e.g., O Rh+" required>
                 </div>
                 <div>
-                    <label class="input-label">Emergency Protocol Contact</label>
+                    <label class="input-label">Emergency Contact</label>
                     <input type="text" id="profInputEmergency" class="input-field" placeholder="Name / Communicator Link" required>
                 </div>
                 <div>
-                    <label class="input-label">Combat/Technical Background</label>
-                    <input type="text" id="profInputBackground" class="input-field" placeholder="Brief specialization" required>
+                    <label class="input-label">Background / Experience</label>
+                    <input type="text" id="profInputBackground" class="input-field" placeholder="e.g. IT, Logistics, Teaching..." required>
                 </div>
                 <button type="submit" class="btn-primary" style="margin-top: 8px;">
-                    <i data-lucide="save" style="width: 18px; height: 18px;"></i> Seal Record & Generate Token
+                    <i data-lucide="save" style="width: 18px; height: 18px;"></i> Save & Continue
                 </button>
             </form>
         </div>

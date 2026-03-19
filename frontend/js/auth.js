@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('loginForm');
     const togglePasswordBtn = document.getElementById('togglePassword');
-    const accessCodeInput = document.getElementById('accessCode');
+    const passwordInput = document.getElementById('password');
     const loginError = document.getElementById('loginError');
     const loginCard = document.getElementById('loginCard');
     const submitBtn = document.getElementById('loginSubmitBtn');
@@ -15,11 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Toggle password visibility
     togglePasswordBtn.addEventListener('click', () => {
         const icon = togglePasswordBtn.querySelector('i');
-        if (accessCodeInput.type === 'password') {
-            accessCodeInput.type = 'text';
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
             icon.setAttribute('data-lucide', 'eye-off');
         } else {
-            accessCodeInput.type = 'password';
+            passwordInput.type = 'password';
             icon.setAttribute('data-lucide', 'eye');
         }
         lucide.createIcons();
@@ -28,8 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
     loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        const personnelId = document.getElementById('personnelId').value;
-        const accessCode = document.getElementById('accessCode').value;
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
         
         loginError.classList.remove('visible');
         loginCard.classList.remove('animate-shake');
@@ -40,10 +40,10 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.disabled = true;
 
         try {
-            const response = await fetch('/api/login', {
+            const response = await fetch('/api/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ personnelId, accessCode })
+                body: JSON.stringify({ username, password })
             });
             
             const data = await response.json();
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data.success) {
                 // Success animation
                 loginCard.classList.add('success-flash');
-                submitBtn.innerHTML = '<i data-lucide="check" style="width: 20px; height: 20px;"></i> Uplink Established';
+                submitBtn.innerHTML = '<i data-lucide="check" style="width: 20px; height: 20px;"></i> Connection Established';
                 submitBtn.style.background = 'var(--primary)';
                 lucide.createIcons();
                 
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loginError.classList.add('visible');
         loginCard.classList.add('animate-shake');
         
-        submitBtn.innerHTML = '<i data-lucide="log-in" style="width: 20px; height: 20px;"></i> Initialize Uplink';
+        submitBtn.innerHTML = '<i data-lucide="log-in" style="width: 20px; height: 20px;"></i> Log In';
         submitBtn.style.opacity = '1';
         submitBtn.disabled = false;
         lucide.createIcons();

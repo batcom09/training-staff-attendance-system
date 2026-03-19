@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration - Staff Training System</title>
+    <link rel="stylesheet" href="frontend/css/styles.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .step-container { display: none; }
+        .step-container.active { display: block; animation: fadeIn 0.3s ease-out; }
+        .progress-bar { height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; margin-bottom: 32px; position: relative; }
+        .progress-fill { height: 100%; background: var(--primary); border-radius: 2px; transition: width 0.3s ease; width: 0%; }
+        .password-meter { height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; margin-top: 8px; position: relative; overflow: hidden; }
+        .password-fill { height: 100%; width: 0%; transition: width 0.3s, background 0.3s; }
+    </style>
+</head>
+<body>
+    <div class="bg-pattern"></div>
+    <div class="min-h-screen flex-center p-8">
+        <div class="glass-panel max-w-2xl w-full p-8" id="onboardingCard">
+            <div id="loadingView" style="text-align: center; padding: 40px;">
+                <i data-lucide="loader" class="animate-spin" style="width: 48px; height: 48px; color: var(--primary);"></i>
+                <p class="text-muted mt-4">Verifying your registration...</p>
+            </div>
+
+            <div id="errorView" style="display: none; text-align: center; padding: 40px;">
+                <i data-lucide="alert-octagon" style="width: 48px; height: 48px; color: var(--danger);"></i>
+                <h2 class="tactical-font mt-4" style="color: var(--danger);">Invalid Authorization</h2>
+                <p class="text-muted" id="errorMessage">The link is expired or invalid. Please contact the administrator.</p>
+                <a href="/login.html" class="btn-primary mt-6" style="display: inline-flex;">Return to Login</a>
+            </div>
+
+            <div id="formView" style="display: none;">
+                <div class="flex-center mb-8" style="flex-direction: column;">
+                    <h1 class="tactical-font text-gradient" style="font-size: 1.5rem; margin: 0 0 8px 0;">Account Setup</h1>
+                    <p class="text-muted" id="onboardingSubtitle">Welcome, <span id="targetName" style="color: var(--primary);">User</span>. Please complete your profile.</p>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+
+                <!-- Step 1: Personal Info -->
+                <form id="step1Form" class="step-container active">
+                    <h3 style="margin-bottom: 24px; font-size: 1.1rem;">Step 1: Personal Information</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div>
+                            <label class="input-label">Full Name</label>
+                            <input type="text" id="fullName" class="input-field" required minlength="2" maxlength="100">
+                        </div>
+                        <div>
+                            <label class="input-label">Phone Number (PH)</label>
+                            <input type="text" id="phone" class="input-field" placeholder="+63 XXX XXX XXXX" required>
+                        </div>
+                        <div style="grid-column: span 2;">
+                            <label class="input-label">Residential Address</label>
+                            <input type="text" id="address" class="input-field" required minlength="10">
+                        </div>
+                        <div>
+                            <label class="input-label">Birthdate</label>
+                            <input type="date" id="birthdate" class="input-field" required>
+                        </div>
+                        <div>
+                            <label class="input-label">Age</label>
+                            <div class="flex-center" style="gap: 12px;">
+                                <input type="number" id="age" class="input-field" readonly style="background: rgba(255,255,255,0.05);">
+                                <p class="text-small text-muted" style="white-space: nowrap;">(Auto-calculated)</p>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="input-label">AFPSN</label>
+                            <input type="text" id="afpsn" class="input-field" placeholder="XX-XXXXXXXX" required title="Armed Forces Personnel Serial Number">
+                        </div>
+                        <div>
+                            <label class="input-label">Gender</label>
+                            <select id="gender" class="input-field" required>
+                                <option value="" disabled selected>Select Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                                <option value="prefer_not_to_say">Prefer not to say</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="input-label">Nationality</label>
+                            <select id="nationality" class="input-field" required>
+                                <option value="filipino" selected>Filipino</option>
+                                <option value="filipino_american">Filipino-American</option>
+                                <option value="dual_citizen">Dual Citizen</option>
+                                <option value="other">Other (specify below)</option>
+                            </select>
+                        </div>
+                        <div id="nationalityOtherContainer" style="display: none;">
+                            <label class="input-label">Specify Nationality</label>
+                            <input type="text" id="nationalityOther" class="input-field" placeholder="Please specify">
+                        </div>
+                        <div style="grid-column: span 2;">
+                            <label class="input-label">Philippine Army Rank</label>
+                            <select id="paRank" class="input-field" required>
+                                <option value="" disabled selected>Select Philippine Army Rank</option>
+                                <optgroup label="Commissioned Officers" id="coRanks"></optgroup>
+                                <optgroup label="Enlisted Personnel" id="epRanks"></optgroup>
+                            </select>
+                            <p class="text-small text-muted" style="margin-top: 4px;">Includes pay grade for clarity (e.g., O-1, E-5)</p>
+                        </div>
+                        <div style="grid-column: span 2;">
+                            <label class="input-label">Other Background / Remarks</label>
+                            <textarea id="background" class="input-field" style="min-height: 80px;" placeholder="Military courses, specializations, or other relevant background..."></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary mt-8 w-full">Next: Account Setup <i data-lucide="arrow-right"></i></button>
+                </form>
+
+                <!-- Step 2: Account Setup -->
+                <form id="step2Form" class="step-container">
+                    <h3 style="margin-bottom: 24px; font-size: 1.1rem;">Step 2: Account Credentials</h3>
+                    <div style="display: flex; flex-direction: column; gap: 20px;">
+                        <div>
+                            <label class="input-label">Username</label>
+                            <input type="text" id="newUsername" class="input-field" required>
+                            <p class="text-small text-muted" style="margin-top: 4px;">You can keep your pre-assigned username or change it.</p>
+                        </div>
+                        <div>
+                            <label class="input-label">New Password</label>
+                            <input type="password" id="password" class="input-field" required>
+                            <div class="password-meter"><div class="password-fill" id="passFill"></div></div>
+                            <p class="text-small text-muted" id="passRequirements" style="margin-top: 8px;">Min 8 chars, 1 Upper, 1 Lower, 1 Number, 1 Special.</p>
+                        </div>
+                        <div>
+                            <label class="input-label">Confirm Password</label>
+                            <input type="password" id="confirmPassword" class="input-field" required>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 16px; margin-top: 32px;">
+                        <button type="button" id="backToStep1" class="btn-primary" style="background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); width: 120px;">Back</button>
+                        <button type="submit" class="btn-primary flex-1">Complete Registration <i data-lucide="shield-check"></i></button>
+                    </div>
+                </form>
+
+                <!-- Success State -->
+                <div id="successView" class="step-container" style="text-align: center; padding: 40px;">
+                    <div style="width: 80px; height: 80px; background: rgba(76,175,80,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px auto;">
+                        <i data-lucide="check-circle" style="width: 48px; height: 48px; color: var(--primary);"></i>
+                    </div>
+                    <h2 class="tactical-font">Setup Complete</h2>
+                    <p class="text-muted">Your account is now active. You can now log in to the system.</p>
+                    <a href="/login.html" class="btn-primary mt-8" style="display: inline-flex;">Go to Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+
+        if (!token) {
+            showError("Authentication token missing.");
+        } else {
+            verifyToken();
+        }
+
+        async function verifyToken() {
+            try {
+                const res = await fetch(`/api/onboarding/verify?token=${token}`);
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('loadingView').style.display = 'none';
+                    document.getElementById('formView').style.display = 'block';
+                    document.getElementById('targetName').textContent = data.user.name;
+                    document.getElementById('fullName').value = data.user.name;
+                    document.getElementById('newUsername').value = data.user.username || '';
+                    updateProgress(50);
+                    loadRanks();
+                } else {
+                    showError(data.message);
+                }
+            } catch (e) {
+                showError("Connection lost. Retrying fallback protocols...");
+            }
+        }
+
+        async function loadRanks() {
+            try {
+                const res = await fetch('/api/onboarding/ranks');
+                const { success, data } = await res.json();
+                if (success) {
+                    const coGroup = document.getElementById('coRanks');
+                    const epGroup = document.getElementById('epRanks');
+                    
+                    data.commissioned_officers.forEach(rank => {
+                        const opt = document.createElement('option');
+                        opt.value = rank.rank_code;
+                        opt.textContent = rank.display_label;
+                        coGroup.appendChild(opt);
+                    });
+
+                    data.enlisted_personnel.forEach(rank => {
+                        const opt = document.createElement('option');
+                        opt.value = rank.rank_code;
+                        opt.textContent = rank.display_label;
+                        epGroup.appendChild(opt);
+                    });
+                }
+            } catch (e) {
+                console.error("Failed to load ranks:", e);
+            }
+        }
+
+        function showError(msg) {
+            document.getElementById('loadingView').style.display = 'none';
+            document.getElementById('formView').style.display = 'none';
+            document.getElementById('errorView').style.display = 'block';
+            document.getElementById('errorMessage').textContent = msg;
+        }
+
+        function updateProgress(p) {
+            document.getElementById('progressFill').style.width = p + '%';
+        }
+
+        // Age Calculation
+        document.getElementById('birthdate').addEventListener('change', (e) => {
+            const birthdate = new Date(e.target.value);
+            const today = new Date();
+            let age = today.getFullYear() - birthdate.getFullYear();
+            const m = today.getMonth() - birthdate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthdate.getDate())) {
+                age--;
+            }
+            document.getElementById('age').value = age;
+        });
+
+        // Nationality "Other" handling
+        document.getElementById('nationality').addEventListener('change', (e) => {
+            const container = document.getElementById('nationalityOtherContainer');
+            if (e.target.value === 'other') {
+                container.style.display = 'block';
+                document.getElementById('nationalityOther').required = true;
+            } else {
+                container.style.display = 'none';
+                document.getElementById('nationalityOther').required = false;
+            }
+        });
+
+        // Form Stepper Logic
+        const step1 = document.getElementById('step1Form');
+        const step2 = document.getElementById('step2Form');
+        const success = document.getElementById('successView');
+
+        step1.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const age = parseInt(document.getElementById('age').value);
+            if (isNaN(age) || age < 18 || age > 65) {
+                alert("User age must be between 18 and 65 years.");
+                return;
+            }
+
+            const payload = {
+                token,
+                full_name: document.getElementById('fullName').value,
+                phone_number: document.getElementById('phone').value,
+                address: document.getElementById('address').value,
+                email: document.getElementById('targetEmail')?.textContent || '', // Assuming email is known or added
+                birthdate: document.getElementById('birthdate').value,
+                afpsn: document.getElementById('afpsn').value,
+                gender: document.getElementById('gender').value,
+                nationality: document.getElementById('nationality').value,
+                nationality_other: document.getElementById('nationalityOther').value,
+                pa_rank_code: document.getElementById('paRank').value,
+                other_background: document.getElementById('background').value,
+                age: age
+            };
+
+            // Need email in payload - let's fetch it from the user data in verifyToken
+            // For now, assume it's part of the user object retrieved or add it to the form
+            
+            const res = await fetch('/api/onboarding/profile', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+
+            const data = await res.json();
+            if (data.success) {
+                step1.classList.remove('active');
+                step2.classList.add('active');
+                updateProgress(100);
+            } else {
+                alert(data.message);
+            }
+        });
+
+        document.getElementById('backToStep1').addEventListener('click', () => {
+            step2.classList.remove('active');
+            step1.classList.add('active');
+            updateProgress(50);
+        });
+
+        step2.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const password = document.getElementById('password').value;
+            if (password !== document.getElementById('confirmPassword').value) {
+                alert("Passwords do not match.");
+                return;
+            }
+
+            // Strong password regex
+            const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            if (!regex.test(password)) {
+                alert("Password does not meet security requirements.");
+                return;
+            }
+
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.disabled = true;
+            btn.innerHTML = '<i data-lucide="loader" class="animate-spin"></i> Finalizing...';
+            lucide.createIcons();
+
+            try {
+                const res = await fetch('/api/onboarding/complete', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        token,
+                        new_username: document.getElementById('newUsername').value,
+                        password: password
+                    })
+                });
+
+                const data = await res.json();
+                if (data.success) {
+                    step2.classList.remove('active');
+                    success.classList.add('active');
+                    document.getElementById('onboardingSubtitle').style.display = 'none';
+                } else {
+                    alert(data.message);
+                    btn.disabled = false;
+                    btn.innerHTML = 'Complete Registration <i data-lucide="shield-check"></i>';
+                    lucide.createIcons();
+                }
+            } catch (err) {
+                alert("Connection error. Please check your internet.");
+                btn.disabled = false;
+                btn.innerHTML = 'Complete Registration <i data-lucide="shield-check"></i>';
+                lucide.createIcons();
+            }
+        });
+
+        // Password Strength Meter
+        document.getElementById('password').addEventListener('input', (e) => {
+            const pass = e.target.value;
+            const fill = document.getElementById('passFill');
+            let strength = 0;
+            if (pass.length >= 8) strength += 25;
+            if (/[A-Z]/.test(pass)) strength += 25;
+            if (/[0-9]/.test(pass)) strength += 25;
+            if (/[@$!%*?&]/.test(pass)) strength += 25;
+
+            fill.style.width = strength + '%';
+            if (strength < 50) fill.style.background = 'var(--danger)';
+            else if (strength < 100) fill.style.background = '#ff9800';
+            else fill.style.background = 'var(--primary)';
+        });
+
+        lucide.createIcons();
+    </script>
+</body>
+</html>

@@ -110,14 +110,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } catch (error) {
             console.error('Failed to fetch logs', error);
-            feed.innerHTML = '<div style="padding: 24px; text-align: center; color: var(--danger);">Failed to sync with command center. Retrying...</div>';
+            feed.innerHTML = '<div style="padding: 24px; text-align: center; color: var(--danger);">Failed to connect to server. Retrying...</div>';
         }
     };
 
     const renderLogs = (logs) => {
         const feed = document.getElementById('activityFeed');
         if (!logs || logs.length === 0) {
-            feed.innerHTML = '<div style="padding: 32px; text-align: center; color: var(--text-muted);">No recent tactical activity.</div>';
+            feed.innerHTML = '<div style="padding: 32px; text-align: center; color: var(--text-muted);">No recent activity.</div>';
             return;
         }
 
@@ -228,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const tbody = document.getElementById('usersTableBody');
         tbody.innerHTML = usersData.map(u => `
             <tr style="border-bottom: 1px solid rgba(255,255,255,0.05); transition: background 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
-                <td style="padding: 16px 12px; font-family: monospace;">${u.id}</td>
+                <td style="padding: 16px 12px; font-family: monospace;">${u.username}</td>
                 <td style="padding: 16px 12px; font-weight: 500;">${u.name}</td>
                 <td style="padding: 16px 12px;">
                     <span style="padding: 4px 8px; background: rgba(76,175,80,0.1); border: 1px solid rgba(76,175,80,0.3); border-radius: 4px; font-size: 0.75rem; color: var(--accent); text-transform: uppercase;">
@@ -281,23 +281,29 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('addUserForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         addUserError.classList.remove('visible');
+        document.getElementById('onboardingLinkContainer').style.display = 'none';
+
         const payload = {
             name: document.getElementById('newUserName').value,
-            id: document.getElementById('newUserPersonnelId').value,
-            code: document.getElementById('newUserCode').value,
+            username: document.getElementById('newUserUsername').value,
+            email: document.getElementById('newUserEmail').value,
             level: document.getElementById('newUserLevel').value
         };
 
         try {
-            const res = await fetch('/api/users', {
+            const res = await fetch('/api/admin/users', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
             const data = await res.json();
             if (data.success) {
-                addUserModal.classList.remove('active');
-                e.target.reset();
+                // Show onboarding link instead of closing immediately
+                document.getElementById('onboardingLinkContainer').style.display = 'block';
+                document.getElementById('onboardingLink').value = data.onboarding_link;
+                document.getElementById('confirmAddBtn').style.display = 'none';
+                
+                // Refresh list in background
                 loadUsers();
             } else {
                 addUserError.textContent = data.message || 'Registration failed.';
@@ -338,7 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (user.level === 'command' || user.level === 'admin') {
         broadcastMsgBtn.style.display = 'inline-flex';
         broadcastMsgBtn.addEventListener('click', async () => {
-            const msg = prompt('Enter priority message to broadcast to all operatives:');
+            const msg = prompt('Enter message to broadcast to all staff:');
             if(msg) {
                 try {
                     await fetch('/api/messages', {
@@ -354,18 +360,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Profile Functionality
     const loadProfile = () => {
-        if(user.profile) {
-            document.getElementById('profDisplayBlood').textContent = user.profile.bloodType;
-            document.getElementById('profDisplayEmergency').textContent = user.profile.emergencyContact;
-            document.getElementById('profDisplayBackground').textContent = user.profile.background;
+        if(user.profile && user.profile.profile_completed) {
+            if(document.getElementById('profDisplayAFPSN')) document.getElementById('profDisplayAFPSN').textContent = user.profile.afpsn || '--';
+            if(document.getElementById('profDisplayPhone')) document.getElementById('profDisplayPhone').textContent = user.profile.phone_number || '--';
+            if(document.getElementById('profDisplayAddress')) document.getElementById('profDisplayAddress').textContent = user.profile.address || '--';
             
             const qrImg = document.getElementById('qrCodeImg');
             const qrLoading = document.getElementById('qrLoading');
-            qrLoading.style.display = 'none';
-            qrImg.style.display = 'inline-block';
-            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(user.id)}&color=000000&bgcolor=ffffff`;
-        } else if(user.level === 'field') {
-            document.getElementById('profileModal').classList.add('active');
+            if(qrLoading) qrLoading.style.display = 'none';
+            if(qrImg) {
+                qrImg.style.display = 'inline-block';
+                qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(user.id)}&color=000000&bgcolor=ffffff`;
+            }
         }
     };
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tactical Operations - Secure Access</title>
+    <title>Staff Training System - Login</title>
     <link rel="stylesheet" href="frontend/css/styles.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -19,35 +19,35 @@
                 <div style="width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), #1b5e20); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);">
                     <i data-lucide="shield" style="width: 32px; height: 32px; color: white;"></i>
                 </div>
-                <h1 class="tactical-font text-gradient" style="font-size: 1.875rem; margin: 0 0 8px 0;">Tactical Operations</h1>
-                <p class="text-muted" style="margin: 0; font-size: 0.875rem;">Secure Access Portal</p>
+                <h1 class="tactical-font text-gradient" style="font-size: 1.875rem; margin: 0 0 8px 0;">Staff Training System</h1>
+                <p class="text-muted" style="margin: 0; font-size: 0.875rem;">Login Portal</p>
             </div>
 
             <form id="loginForm" style="display: flex; flex-direction: column; gap: 20px;">
                 <div class="error-text" id="loginError">Invalid credentials. Access Denied.</div>
                 
                 <div>
-                    <label for="securityLevel" class="input-label">Security Clearance</label>
+                    <label for="securityLevel" class="input-label">Account Type</label>
                     <select id="securityLevel" class="input-field" required>
                         <option value="" disabled selected>Select clearance level</option>
-                        <option value="field">Training Staff</option>
-                        <option value="command">Commandant</option>
+                        <option value="field">Staff Member</option>
+                        <option value="command">Management</option>
                         <option value="admin">Administrator</option>
                     </select>
                 </div>
 
                 <div>
-                    <label for="personnelId" class="input-label">Personnel ID</label>
+                    <label for="username" class="input-label">Username or Email</label>
                     <div style="position: relative;">
-                        <input id="personnelId" type="text" class="input-field" placeholder="Enter personnel ID" required style="padding-right: 40px;" />
+                        <input id="username" type="text" class="input-field" placeholder="Enter username or email" required style="padding-right: 40px;" />
                         <i data-lucide="user" style="position: absolute; right: 14px; top: 14px; width: 20px; height: 20px; color: var(--text-muted);"></i>
                     </div>
                 </div>
 
                 <div>
-                    <label for="accessCode" class="input-label">Access Code</label>
+                    <label for="password" class="input-label">Password</label>
                     <div style="position: relative;">
-                        <input id="accessCode" type="password" class="input-field" placeholder="Enter access code" required style="padding-right: 40px;" />
+                        <input id="password" type="password" class="input-field" placeholder="Enter secure password" required style="padding-right: 40px;" />
                         <button type="button" id="togglePassword" style="position: absolute; right: 14px; top: 14px; background: none; border: none; cursor: pointer; color: var(--text-muted); padding: 0;">
                             <i data-lucide="eye" style="width: 20px; height: 20px;"></i>
                         </button>
@@ -61,21 +61,20 @@
 
                 <button type="submit" class="btn-primary" id="loginSubmitBtn">
                     <i data-lucide="log-in" style="width: 20px; height: 20px;"></i>
-                    Initialize Uplink
+                    Log In
                 </button>
 
                 <div style="background: rgba(76, 175, 80, 0.1); border: 1px solid rgba(76, 175, 80, 0.2); border-radius: 8px; padding: 16px; margin-top: 8px;">
                     <p class="input-label" style="margin-top: 0;">Demo Credentials:</p>
                     <table style="width: 100%; font-size: 0.875rem; color: var(--text-muted); border-collapse: collapse;">
-                        <tr><td style="padding: 4px 0;">Training Staff:</td><td style="text-align: right; color: var(--primary); font-family: monospace;">field001 / alpha123</td></tr>
-                        <tr><td style="padding: 4px 0;">Commandant:</td><td style="text-align: right; color: var(--primary); font-family: monospace;">command001 / charlie789</td></tr>
+                        <tr><td style="padding: 4px 0;">New Staff:</td><td style="text-align: right; color: var(--primary); font-family: monospace;">Use Registration Link</td></tr>
                         <tr><td style="padding: 4px 0;">Administrator:</td><td style="text-align: right; color: var(--primary); font-family: monospace;">admin / admin</td></tr>
                     </table>
                 </div>
             </form>
             
             <div style="text-align: center; margin-top: 24px;">
-                <p style="font-size: 0.75rem; color: rgba(255,255,255,0.4);"><i data-lucide="shield-check" style="width: 14px; height: 14px; display: inline-block; vertical-align: middle; margin-top: -2px;"></i> Secured Connection • Authorized Personnel Only</p>
+                <p style="font-size: 0.75rem; color: rgba(255,255,255,0.4);"><i data-lucide="shield-check" style="width: 14px; height: 14px; display: inline-block; vertical-align: middle; margin-top: -2px;"></i> Secured Access • Authorized Staff Only</p>
             </div>
         </div>
     </div>
