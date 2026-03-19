@@ -32,9 +32,9 @@ app.get(['/keep-alive', '/ping'], (req, res) => {
 
 // Mock Database
 let users = [
-  { id: 'field001', code: 'alpha123', level: 'field', name: 'Training Staff' },
-  { id: 'command001', code: 'charlie789', level: 'command', name: 'Commandant' },
-  { id: 'admin', code: 'admin', level: 'admin', name: 'Administrator' }
+  { id: 'field001', code: 'alpha123', level: 'field', name: 'Training Staff', status: 'active' },
+  { id: 'command001', code: 'charlie789', level: 'command', name: 'Commandant', status: 'active' },
+  { id: 'admin', code: 'admin', level: 'admin', name: 'Administrator', status: 'active' }
 ];
 
 let attendanceLogs = [
@@ -52,7 +52,7 @@ app.post('/api/login', (req, res) => {
   const user = users.find(u => u.id === personnelId && u.code === accessCode);
   
   if (user) {
-    res.json({ success: true, token: 'mock-jwt-12345', user: { id: user.id, name: user.name, level: user.level, profile: user.profile } });
+    res.json({ success: true, token: 'mock-jwt-12345', user: { id: user.id, name: user.name, level: user.level, profile: user.profile, status: user.status } });
   } else {
     res.status(401).json({ success: false, message: 'Invalid credentials. Access Denied.' });
   }
@@ -75,8 +75,9 @@ app.post('/api/users', (req, res) => {
   if (users.find(u => u.id === id)) {
     return res.status(400).json({ success: false, message: 'User already exists' });
   }
-  users.push({ id, code, level, name });
-  res.json({ success: true, user: { id, code, level, name } });
+  const newUser = { id, code, level, name, status: 'pending' };
+  users.push(newUser);
+  res.json({ success: true, user: newUser });
 });
 
 app.delete('/api/users/:id', (req, res) => {
@@ -90,6 +91,7 @@ app.post('/api/users/profile', (req, res) => {
   const user = users.find(u => u.id === userId);
   if (user) {
     user.profile = { bloodType, emergencyContact, background };
+    user.status = 'active'; // Mark user as active after completing registration
     res.json({ success: true, user });
   } else {
     res.status(404).json({ success: false, message: 'User not found' });

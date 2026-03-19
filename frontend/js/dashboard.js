@@ -235,6 +235,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         ${u.level}
                     </span>
                 </td>
+                <td style="padding: 16px 12px;">
+                    <span style="padding: 4px 8px; background: ${u.status === 'pending' ? 'rgba(255, 152, 0, 0.1)' : 'rgba(76, 175, 80, 0.1)'}; border: 1px solid ${u.status === 'pending' ? 'rgba(255, 152, 0, 0.3)' : 'rgba(76, 175, 80, 0.3)'}; border-radius: 4px; font-size: 0.75rem; color: ${u.status === 'pending' ? '#ff9800' : 'var(--accent)'}; text-transform: uppercase;">
+                        ${u.status || 'unknown'}
+                    </span>
+                </td>
                 <td style="padding: 16px 12px; text-align: right;">
                     <button class="delete-user-btn" data-id="${u.id}" ${u.id === user.id ? 'disabled title="Cannot delete self"' : 'title="Revoke Access"'} style="background: none; border: none; color: ${u.id === user.id ? 'var(--text-muted)' : 'var(--danger)'}; cursor: ${u.id === user.id ? 'not-allowed' : 'pointer'}; padding: 6px; border-radius: 6px; transition: background 0.2s;">
                         <i data-lucide="trash-2" style="width: 18px; height: 18px;"></i>
