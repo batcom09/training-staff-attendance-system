@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Russo+One&display=swap');
+
+:root {
+  --bg-dark: #0a0e0a;
+  --bg-gradient: linear-gradient(135deg, #1a1a1a 0%, #2d1810 25%, #1b4332 50%, #263238 75%, #1a1a1a 100%);
+  --primary: #4caf50;
+  --primary-glow: rgba(76, 175, 80, 0.4);
+  --accent: #8bc34a;
+  --glass-bg: rgba(26, 26, 26, 0.65);
+  --glass-border: rgba(76, 175, 80, 0.25);
+  --text-main: #ffffff;
+  --text-muted: #a0aec0;
+  --danger: #f44336;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-main);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Camouflage Background */
+.bg-pattern {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--bg-gradient);
+    z-index: -1;
+    opacity: 0.9;
+}
+
+/* Typography styles */
+.tactical-font {
+    font-family: 'Russo One', sans-serif;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.text-gradient {
+    background: linear-gradient(to right, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.text-muted {
+    color: var(--text-muted);
+}
+
+/* Premium Glassmorphism */
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-panel:hover {
+    box-shadow: 0 12px 40px var(--primary-glow);
+    border-color: rgba(76, 175, 80, 0.5);
+    transform: translateY(-2px);
+}
+
+/* Form Styles */
+.input-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+}
+
+.input-field {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(76, 175, 80, 0.3);
+    color: var(--text-main);
+    padding: 14px 16px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-glow);
+    background: rgba(0, 0, 0, 0.6);
+}
+
+/* Buttons */
+.btn-primary {
+    background: linear-gradient(135deg, #1b5e20 0%, #388e3c 100%);
+    color: white;
+    border: 1px solid rgba(76, 175, 80, 0.5);
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(27, 94, 32, 0.4);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(56, 142, 60, 0.7);
+    background: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%);
+    border-color: var(--primary);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+/* Layout Utilities */
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.min-h-screen {
+    min-height: 100vh;
+}
+
+.p-8 { padding: 2rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.mb-4 { margin-bottom: 1rem; }
+.w-full { width: 100%; }
+.max-w-md { max-width: 450px; width: 100%; }
+
+/* Micro animations */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.animate-shake {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes flashSuccess {
+    from { box-shadow: 0 0 40px rgba(76, 175, 80, 0.8), inset 0 0 20px rgba(76, 175, 80, 0.5); border-color: #8bc34a; }
+    to { box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); border-color: var(--glass-border); }
+}
+
+.success-flash {
+    animation: flashSuccess 1.5s ease-out;
+}
+
+/* Error messages */
+.error-text {
+    color: var(--danger);
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    display: none;
+}
+.error-text.visible {
+    display: block;
+}
