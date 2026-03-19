@@ -11,6 +11,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const user = JSON.parse(userJson);
     document.getElementById('userName').textContent = user.name;
     document.getElementById('userLevel').textContent = user.level.toUpperCase();
+    
+    // Hide scan button for non-admins
+    document.getElementById('scanBtn').style.display = user.level === 'admin' ? 'inline-flex' : 'none';
 
     // Logout Handler
     document.getElementById('logoutBtn').addEventListener('click', () => {
@@ -37,10 +40,57 @@ document.addEventListener('DOMContentLoaded', () => {
     const scanModal = document.getElementById('scanModal');
     const closeScanBtn = document.getElementById('closeScanBtn');
 
-    scanBtn.addEventListener('click', () => scanModal.classList.add('active'));
-    closeScanBtn.addEventListener('click', () => scanModal.classList.remove('active'));
+    let html5QrcodeScanner = null;
+
+    scanBtn.addEventListener('click', () => {
+        scanModal.classList.add('active');
+        html5QrcodeScanner = new Html5Qrcode("reader");
+        html5QrcodeScanner.start(
+            { facingMode: "environment" },
+            { fps: 10, qrbox: { width: 250, height: 250 } },
+            async (decodedText, decodedResult) => {
+                // handle scan
+                html5QrcodeScanner.stop();
+                scanModal.classList.remove('active');
+                try {
+                    const res = await fetch('/api/attendance/scan', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ scannedData: decodedText })
+                    });
+                    const data = await res.json();
+                    if(data.success) {
+                        alert('Scan successful for: ' + data.user);
+                        fetchLogs();
+                    } else {
+                        alert('Scan failed: ' + data.message);
+                    }
+                } catch(e) {
+                    console.error('Scan api error', e);
+                }
+            },
+            (errorMessage) => {
+                // parse error, keep scanning
+            }
+        ).catch((err) => {
+            console.log("Scanner start failed", err);
+        });
+    });
+
+    closeScanBtn.addEventListener('click', () => {
+        scanModal.classList.remove('active');
+        if(html5QrcodeScanner) {
+            html5QrcodeScanner.stop().catch(err => console.log(err));
+        }
+    });
+
     scanModal.addEventListener('click', (e) => {
-        if (e.target === scanModal) scanModal.classList.remove('active');
+        if (e.target === scanModal) {
+            scanModal.classList.remove('active');
+            if(html5QrcodeScanner) {
+                html5QrcodeScanner.stop().catch(err => console.log(err));
+            }
+        }
     });
 
     // API Integration for live data rendering
@@ -91,6 +141,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const views = document.querySelectorAll('.view-section');
     const pageTitle = document.getElementById('pageTitle');
 
+    // Role-based visibility
+    const allowedViews = {
+        admin: ['dashboard', 'attendance', 'training', 'messages', 'settings'],
+        command: ['dashboard', 'attendance', 'training', 'messages'],
+        field: ['profile', 'messages']
+    };
+
+    navItems.forEach(item => {
+        const view = item.dataset.view;
+        if (!allowedViews[user.level].includes(view)) {
+            item.style.display = 'none';
+        }
+    });
+
     navItems.forEach(item => {
         item.addEventListener('click', () => {
             // Update active styling
@@ -112,6 +176,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     if(item.dataset.view === 'settings') {
                         loadUsers();
+                    } else if (item.dataset.view === 'messages') {
+                        loadMessages();
+                    } else if (item.dataset.view === 'profile') {
+                        loadProfile();
                     }
                 } else {
                     view.style.display = 'none';
@@ -119,6 +187,18 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     });
+
+    // Determine initial view based on role
+    const initialView = user.level === 'field' ? 'profile' : 'dashboard';
+    const initBtn = document.querySelector(`.nav-item[data-view="${initialView}"]`);
+    if(initBtn) {
+        initBtn.click();
+    } else {
+        // Fallback for safety
+        navItems.forEach(n => n.classList.remove('active'));
+        views.forEach(v => v.style.display = 'none');
+        document.getElementById('view-dashboard').style.display = 'block';
+    }
 
     // User Management Logic
     const loadUsers = async () => {
@@ -225,6 +305,93 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Initial load
-    fetchLogs();
+    // Messaging Functionality
+    const loadMessages = async () => {
+        try {
+            const res = await fetch('/api/messages');
+            const data = await res.json();
+            if (data.success) {
+                const list = document.getElementById('messagesList');
+                if (!data.messages || data.messages.length === 0) {
+                    list.innerHTML = '<div style="text-align:center; color:var(--text-muted); padding:24px;">No secure messages broadcasted.</div>';
+                } else {
+                    list.innerHTML = data.messages.map(m => `
+                        <div style="background:rgba(255,255,255,0.05); padding:16px; border-radius:8px; border-left: 4px solid var(--primary);">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                                <span style="font-weight:600; color:var(--primary); font-size: 0.95rem;">${m.sender}</span>
+                                <span style="font-size:0.75rem; color:var(--text-muted); padding:2px 6px; background:rgba(0,0,0,0.3); border-radius:4px;">${m.time}</span>
+                            </div>
+                            <div style="color:var(--text-main); font-size:0.95rem; line-height: 1.5;">${m.content}</div>
+                        </div>
+                    `).join('');
+                }
+            }
+        } catch(e) { console.error('Error loading messages:', e); }
+    };
+
+    const broadcastMsgBtn = document.getElementById('broadcastMsgBtn');
+    if (user.level === 'command' || user.level === 'admin') {
+        broadcastMsgBtn.style.display = 'inline-flex';
+        broadcastMsgBtn.addEventListener('click', async () => {
+            const msg = prompt('Enter priority message to broadcast to all operatives:');
+            if(msg) {
+                try {
+                    await fetch('/api/messages', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ sender: user.level.toUpperCase() + ' (' + user.name + ')', content: msg })
+                    });
+                    loadMessages();
+                } catch(e) { console.error('Failed to broadcast', e); }
+            }
+        });
+    }
+
+    // Profile Functionality
+    const loadProfile = () => {
+        if(user.profile) {
+            document.getElementById('profDisplayBlood').textContent = user.profile.bloodType;
+            document.getElementById('profDisplayEmergency').textContent = user.profile.emergencyContact;
+            document.getElementById('profDisplayBackground').textContent = user.profile.background;
+            
+            const qrImg = document.getElementById('qrCodeImg');
+            const qrLoading = document.getElementById('qrLoading');
+            qrLoading.style.display = 'none';
+            qrImg.style.display = 'inline-block';
+            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(user.id)}&color=000000&bgcolor=ffffff`;
+        } else if(user.level === 'field') {
+            document.getElementById('profileModal').classList.add('active');
+        }
+    };
+
+    document.getElementById('profileForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const bloodType = document.getElementById('profInputBlood').value;
+        const emergencyContact = document.getElementById('profInputEmergency').value;
+        const background = document.getElementById('profInputBackground').value;
+        
+        try {
+            const res = await fetch('/api/users/profile', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ userId: user.id, bloodType, emergencyContact, background })
+            });
+            const data = await res.json();
+            if(data.success) {
+                user.profile = data.user.profile;
+                localStorage.setItem('tactical_user', JSON.stringify(user));
+                document.getElementById('profileModal').classList.remove('active');
+                loadProfile();
+            }
+        } catch(e) { console.error('Failed to save profile', e); }
+    });
+
+    if (user.level === 'field' && !user.profile) {
+        document.getElementById('profileModal').classList.add('active');
+    }
+
+    // Initial load for dashboard if visible
+    if(allowedViews[user.level].includes('dashboard')) {
+        fetchLogs();
+    }
 });

@@ -32,15 +32,18 @@ app.get(['/keep-alive', '/ping'], (req, res) => {
 
 // Mock Database
 let users = [
-  { id: 'field001', code: 'alpha123', level: 'field', name: 'Field Operator' },
-  { id: 'squad001', code: 'bravo456', level: 'squad', name: 'Squad Leader' },
-  { id: 'command001', code: 'charlie789', level: 'command', name: 'Command Center' },
-  { id: 'admin', code: 'admin', level: 'admin', name: 'System Admin' }
+  { id: 'field001', code: 'alpha123', level: 'field', name: 'Training Staff' },
+  { id: 'command001', code: 'charlie789', level: 'command', name: 'Commandant' },
+  { id: 'admin', code: 'admin', level: 'admin', name: 'Administrator' }
 ];
 
 let attendanceLogs = [
   { id: 1, user: 'Jane Smith', action: 'Completed Training', time: '15 min ago', status: 'info' },
   { id: 2, user: 'John Doe', action: 'Checked in', time: '2 min ago', status: 'success' }
+];
+
+let messages = [
+  { id: 1, sender: 'Commandant', content: 'Welcome to the new Tactical Operations System.', time: '1 hour ago' }
 ];
 
 // API Endpoints
@@ -49,7 +52,7 @@ app.post('/api/login', (req, res) => {
   const user = users.find(u => u.id === personnelId && u.code === accessCode);
   
   if (user) {
-    res.json({ success: true, token: 'mock-jwt-12345', user: { id: user.id, name: user.name, level: user.level } });
+    res.json({ success: true, token: 'mock-jwt-12345', user: { id: user.id, name: user.name, level: user.level, profile: user.profile } });
   } else {
     res.status(401).json({ success: false, message: 'Invalid credentials. Access Denied.' });
   }
@@ -79,6 +82,48 @@ app.post('/api/users', (req, res) => {
 app.delete('/api/users/:id', (req, res) => {
   users = users.filter(u => u.id !== req.params.id);
   res.json({ success: true, message: 'User deleted' });
+});
+
+// Profile Endpoint
+app.post('/api/users/profile', (req, res) => {
+  const { userId, bloodType, emergencyContact, background } = req.body;
+  const user = users.find(u => u.id === userId);
+  if (user) {
+    user.profile = { bloodType, emergencyContact, background };
+    res.json({ success: true, user });
+  } else {
+    res.status(404).json({ success: false, message: 'User not found' });
+  }
+});
+
+// Messages Endpoints
+app.get('/api/messages', (req, res) => {
+  res.json({ success: true, messages });
+});
+
+app.post('/api/messages', (req, res) => {
+  const { sender, content, time } = req.body;
+  if (!sender || !content) return res.status(400).json({ success: false, message: 'Missing fields' });
+  messages.unshift({ id: Date.now(), sender, content, time: time || new Date().toLocaleTimeString() });
+  res.json({ success: true, message: 'Message broadcasted' });
+});
+
+// QR Scanning Endpoint
+app.post('/api/attendance/scan', (req, res) => {
+  const { scannedData, time } = req.body;
+  const user = users.find(u => u.id === scannedData);
+  if (user) {
+    attendanceLogs.unshift({ 
+      id: Date.now(), 
+      user: user.name, 
+      action: 'Checked in via QR Scan', 
+      time: time || 'Just now', 
+      status: 'success' 
+    });
+    res.json({ success: true, message: 'Scan successful', user: user.name });
+  } else {
+    res.status(404).json({ success: false, message: 'Unknown ID scanned' });
+  }
 });
 
 // Fallback routing for SPA

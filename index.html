@@ -208,6 +208,14 @@
                 <i data-lucide="target" style="width: 20px; height: 20px; flex-shrink: 0;"></i>
                 <span class="sidebar-text">Training Ops</span>
             </div>
+            <div class="nav-item" data-view="messages" title="Secure Messages">
+                <i data-lucide="message-square" style="width: 20px; height: 20px; flex-shrink: 0;"></i>
+                <span class="sidebar-text">Messages</span>
+            </div>
+            <div class="nav-item" data-view="profile" title="My Profile">
+                <i data-lucide="user" style="width: 20px; height: 20px; flex-shrink: 0;"></i>
+                <span class="sidebar-text">My Profile</span>
+            </div>
             <div class="nav-item" data-view="settings" title="Squad Management">
                 <i data-lucide="users" style="width: 20px; height: 20px; flex-shrink: 0;"></i>
                 <span class="sidebar-text">Squad Management</span>
@@ -345,7 +353,7 @@
                     </div>
 
                     <div id="adminWarning" style="display: none; padding: 16px; background: rgba(244, 67, 54, 0.1); border: 1px solid rgba(244, 67, 54, 0.3); border-radius: 8px; color: var(--danger);">
-                        <i data-lucide="alert-triangle" style="display: inline-block; vertical-align: middle; margin-right: 8px;"></i> Access Denied. System Admin clearance required for Squad Management.
+                        <i data-lucide="alert-triangle" style="display: inline-block; vertical-align: middle; margin-right: 8px;"></i> Access Denied. Administrator clearance required for Squad Management.
                     </div>
 
                     <div id="squadManagementContent" style="display: none;">
@@ -368,6 +376,40 @@
                 </div>
             </div>
             
+            <!-- Messages view -->
+            <div id="view-messages" class="view-section" style="display: none;">
+                <div class="glass-panel" style="padding: 32px; display: flex; flex-direction: column; min-height: 400px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                        <div>
+                            <h3 style="margin: 0 0 8px 0; font-size: 1.5rem; font-weight: 600;">Secure Messages</h3>
+                            <p class="text-muted" style="margin: 0;">Command broadcasts and operational updates.</p>
+                        </div>
+                        <button class="btn-primary" id="broadcastMsgBtn" style="display: none; width: auto; padding: 10px 20px;">
+                            <i data-lucide="mic" style="width: 18px; height: 18px;"></i> Broadcast
+                        </button>
+                    </div>
+                    <div id="messagesList" style="flex: 1; display: flex; flex-direction: column; gap: 16px; overflow-y: auto; max-height: 500px;">
+                        <!-- Messages dynamic content -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile / QR view -->
+            <div id="view-profile" class="view-section" style="display: none;">
+                <div class="glass-panel" style="padding: 32px; text-align: center;">
+                    <h3 style="margin: 0 0 24px 0; font-size: 1.5rem; font-weight: 600;">Operative Profile</h3>
+                    <div id="qrCodeContainer" style="background: white; padding: 16px; border-radius: 12px; display: inline-block; margin-bottom: 24px; border: 4px solid var(--primary);">
+                        <img id="qrCodeImg" src="" alt="QR Code" style="display: none; width: 220px; height: 220px;" />
+                        <div id="qrLoading" style="width: 220px; height: 220px; display: flex; align-items: center; justify-content: center; color: black; font-weight: 600;">Generating Uplink...</div>
+                    </div>
+                    <div id="profileDetails" style="text-align: left; max-width: 400px; margin: 0 auto; background: rgba(0,0,0,0.5); padding: 24px; border-radius: 12px; border: 1px solid var(--glass-border);">
+                        <p style="margin-top: 0;"><strong class="text-muted">Blood Type:</strong> <span id="profDisplayBlood" style="float: right; font-family: monospace;"></span></p>
+                        <p><strong class="text-muted">Emergency Contact:</strong> <span id="profDisplayEmergency" style="float: right; font-family: monospace;"></span></p>
+                        <p style="margin-bottom: 0;"><strong class="text-muted">Specialization:</strong> <span id="profDisplayBackground" style="float: right; font-family: monospace;"></span></p>
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </main>
 
@@ -378,14 +420,9 @@
                 <h3 style="margin: 0; font-size: 1.25rem;">Initiate Secure Scanner</h3>
                 <button id="closeScanBtn" style="background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 4px;"><i data-lucide="x"></i></button>
             </div>
-            <div style="background: black; height: 300px; border-radius: 12px; border: 2px solid var(--primary); display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: inset 0 0 40px rgba(76,175,80,0.3);">
-                <!-- Scanner Animation -->
-                <div style="position: absolute; width: 100%; height: 2px; background: #8bc34a; top: 50%; box-shadow: 0 0 15px #8bc34a; animation: scanAnim 2.5s infinite ease-in-out;"></div>
-                <i data-lucide="radar" style="width: 48px; height: 48px; margin-bottom: 12px; color: var(--primary); animation: pulse 2s infinite;"></i>
-                <p class="text-muted" style="font-size: 0.875rem;">Awaiting visual confirmation...</p>
-                <style>
-                    @keyframes scanAnim { 0%, 100% { top: 5%; } 50% { top: 95%; } }
-                </style>
+            <div style="background: black; min-height: 300px; border-radius: 12px; border: 2px solid var(--primary); display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: inset 0 0 40px rgba(76,175,80,0.3);">
+                <!-- HTML5 Qrcode Container -->
+                <div id="reader" style="width: 100%;"></div>
             </div>
         </div>
     </div>
@@ -414,10 +451,9 @@
                 <div>
                     <label class="input-label">Security Clearance</label>
                     <select id="newUserLevel" class="input-field" required style="background-color: rgba(0,0,0,0.4);">
-                        <option value="field">Field Operator</option>
-                        <option value="squad">Squad Leader</option>
-                        <option value="command">Command Center</option>
-                        <option value="admin">System Admin</option>
+                        <option value="field">Training Staff</option>
+                        <option value="command">Commandant</option>
+                        <option value="admin">Administrator</option>
                     </select>
                 </div>
                 <button type="submit" class="btn-primary" style="margin-top: 8px;">
@@ -427,6 +463,35 @@
         </div>
     </div>
 
+    <!-- Add Profile Modal -->
+    <div class="modal-overlay" id="profileModal" style="z-index: 1000;">
+        <div class="glass-panel" style="width: 100%; max-width: 500px; padding: 32px;">
+            <div style="margin-bottom: 24px;">
+                <h3 style="margin: 0 0 8px 0; font-size: 1.25rem;">Initialize Operative Clearance</h3>
+                <p class="text-muted" style="margin: 0; font-size: 0.875rem;">Your biological and emergency data is required to secure local clearance and generate your personal uplink QR token.</p>
+            </div>
+            <form id="profileForm" style="display: flex; flex-direction: column; gap: 16px;">
+                <div>
+                    <label class="input-label">Blood Type</label>
+                    <input type="text" id="profInputBlood" class="input-field" placeholder="e.g., O Rh+" required>
+                </div>
+                <div>
+                    <label class="input-label">Emergency Protocol Contact</label>
+                    <input type="text" id="profInputEmergency" class="input-field" placeholder="Name / Communicator Link" required>
+                </div>
+                <div>
+                    <label class="input-label">Combat/Technical Background</label>
+                    <input type="text" id="profInputBackground" class="input-field" placeholder="Brief specialization" required>
+                </div>
+                <button type="submit" class="btn-primary" style="margin-top: 8px;">
+                    <i data-lucide="save" style="width: 18px; height: 18px;"></i> Seal Record & Generate Token
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- HTML5 QRCode library -->
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     <script src="frontend/js/dashboard.js"></script>
     <script>lucide.createIcons();</script>
 </body>
