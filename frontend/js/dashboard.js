@@ -86,6 +86,36 @@ document.addEventListener('DOMContentLoaded', () => {
         lucide.createIcons();
     };
 
+    // Navigation Menu Logic
+    const navItems = document.querySelectorAll('.nav-item[data-view]');
+    const views = document.querySelectorAll('.view-section');
+    const pageTitle = document.getElementById('pageTitle');
+
+    navItems.forEach(item => {
+        item.addEventListener('click', () => {
+            // Update active styling
+            navItems.forEach(n => n.classList.remove('active'));
+            item.classList.add('active');
+
+            // Update title
+            pageTitle.textContent = item.querySelector('.sidebar-text').textContent;
+
+            // Toggle views
+            const targetViewId = 'view-' + item.dataset.view;
+            views.forEach(view => {
+                if (view.id === targetViewId) {
+                    view.style.display = 'block';
+                    // Trigger a brief fade animation
+                    view.style.opacity = '0';
+                    setTimeout(() => view.style.opacity = '1', 10);
+                    view.style.transition = 'opacity 0.3s ease';
+                } else {
+                    view.style.display = 'none';
+                }
+            });
+        });
+    });
+
     // Initial load
     fetchLogs();
 });

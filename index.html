@@ -220,7 +220,8 @@
         <!-- Dynamic Content Area -->
         <div style="flex: 1; overflow-y: auto; padding: 40px;" id="mainView">
             
-            <div class="dashboard-grid">
+            <div id="view-dashboard" class="view-section">
+                <div class="dashboard-grid">
                 <div class="glass-panel stat-card">
                     <div style="display: flex; align-items: center; justify-content: space-between;">
                         <span class="text-muted" style="font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Active Personnel</span>
@@ -282,6 +283,31 @@
                             <i data-lucide="bell" style="color: var(--accent);"></i> Broadcast Alert
                         </button>
                     </div>
+                </div>
+            </div>
+            </div>
+            
+            <!-- Attendance view -->
+            <div id="view-attendance" class="view-section" style="display: none;">
+                <div class="glass-panel" style="padding: 32px;">
+                    <h3 style="margin: 0 0 24px 0; font-size: 1.5rem; font-weight: 600;">Attendance Log</h3>
+                    <p class="text-muted">Historical attendance records and deployment logs will be synchronized here.</p>
+                </div>
+            </div>
+
+            <!-- Training view -->
+            <div id="view-training" class="view-section" style="display: none;">
+                <div class="glass-panel" style="padding: 32px;">
+                    <h3 style="margin: 0 0 24px 0; font-size: 1.5rem; font-weight: 600;">Training Ops</h3>
+                    <p class="text-muted">Active simulated operations and capability assessments will be displayed here.</p>
+                </div>
+            </div>
+
+            <!-- Settings / Squad view -->
+            <div id="view-settings" class="view-section" style="display: none;">
+                <div class="glass-panel" style="padding: 32px;">
+                    <h3 style="margin: 0 0 24px 0; font-size: 1.5rem; font-weight: 600;">Squad Management</h3>
+                    <p class="text-muted">Manage operational teams, security clearances, and command designations.</p>
                 </div>
             </div>
             
